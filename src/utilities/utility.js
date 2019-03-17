@@ -1,0 +1,1 @@
+export const copySimpleNestedObject = (object) => JSON.parse(JSON.stringify(object));  
