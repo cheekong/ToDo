@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
 
+import * as actionCreators from '../../../store/actions/index';
 import * as api from '../../../utilities/api';
 
 import './NewNote.css';
@@ -34,17 +36,23 @@ class NewNote extends Component {
     }
 
     handleSubmit(event){
+        this.props.toggleLoading();
         event.preventDefault();
-        api.submitNote(this.state.note)
-        .then(res => {
-            if(res.status === 200){
-                console.log('props',this.props);
-                this.props.toggleNoticeBar('success', this.state.note.title + ' Saved');
-            }
-        })
-        .catch(err => {
-            alert('error when submit');
-        });
+        if(this.props.login){
+            api.submitNote(this.state.note)
+            .then(res => {
+                if(res.status === 200){
+                    console.log('props',this.props);
+                    this.props.toggleNoticeBar('success', this.state.note.title + ' Saved');
+                }
+            })
+            .catch(err => {
+                alert('error when submit');
+            });
+            this.props.toggleLoading();
+        } else {
+            this.props.saveNotes(this.state.note);
+        }
     }
 
     handleCheckbox(idx) {
@@ -220,13 +228,36 @@ class NewNote extends Component {
     }
 
     render(){
+        let loading = null;
+        if(this.props.loading){
+            loading = (<div><i class="fas fa-spinner"/></div>);
+        }
+
         let content = (<div><i class="fas fa-spinner"/></div>);
         if(this.state.note.items.pending.length || this.state.note.items.completed.length){
             content = this.buildForm();
         }
 
-        return content;
+        return (
+            <section>
+                {loading}
+                {content}
+            </section>
+        );
     }
 }
 
-export default NewNote;
+const mapStateToProps = state => {
+    return {
+      notes: state.user.notes,
+      login: state.user.login,
+      loading: state.user.loading
+    }
+  }
+
+const mapDispatchToProps = dispatch => ({
+    saveNotes: (notes) => dispatch(actionCreators.saveNotes(notes)),
+    toggleLoading: () => dispatch(actionCreators.toggleLoading())
+})
+
+  export default connect(mapStateToProps, mapDispatchToProps)(NewNote)

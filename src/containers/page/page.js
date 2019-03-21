@@ -7,6 +7,7 @@ import Login from '../login/login';
 import Signup from '../signup/signup';
 import TodoList from '../todo/todoList/todoList';
 import NoticeBar from '../../components/noticebar/noticebar';
+import Dialog from '../../components/dialog/dialog';
 
 import './page.css';
 
@@ -46,11 +47,14 @@ console.log('this.state.noticeBar.show',this.state.noticeBar.show);
                <Router>
                     
                     <div>
-                    <NoticeBar 
-                        show={this.state.noticeBar.show} 
-                        success={this.state.noticeBar.success} 
-                        message={this.state.noticeBar.message}
-                        onClose={()=>this.toggleNoticeBar(false,'')}/>
+                        <NoticeBar 
+                            show={this.state.noticeBar.show} 
+                            success={this.state.noticeBar.success} 
+                            message={this.state.noticeBar.message}
+                            onClose={()=>this.toggleNoticeBar(false,'')}
+                        />
+                        <Dialog title='test title' message='test message' buttonLabel='test label'/>
+
                         <nav>
                             <Link className='navItem' to="/">New List</Link>
                             <Link className='navItem' to="/list">List</Link>

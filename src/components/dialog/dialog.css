@@ -1,0 +1,40 @@
+#backdrop {
+    z-index: 9999;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: #00000061;
+}
+
+#dialog {
+    background-color:white;
+    margin-top: 10%;
+    height: fit-content;
+    max-width: 500px;
+    width: 50%;
+}
+
+#dialog > section {
+    padding-top:20px;
+    padding-bottom: 20px;
+}
+
+#dialog__top {
+    display: flex;
+    justify-content: flex-end;
+}
+
+#dialog__top > input {
+    background-color: #00000000;
+    margin-right:20px;
+}
+
+#dialog__heading h1{
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+#dialog__actions {
+
+}
+
