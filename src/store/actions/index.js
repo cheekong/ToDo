@@ -1,5 +1,5 @@
 export {
-    signIn,
+    login,
     signUp,
     logout,
     toggleLoading,

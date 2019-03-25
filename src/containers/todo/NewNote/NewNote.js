@@ -36,8 +36,8 @@ class NewNote extends Component {
     }
 
     handleSubmit(event){
-        this.props.toggleLoading();
         event.preventDefault();
+        this.props.toggleLoading();
         if(this.props.login){
             api.submitNote(this.state.note)
             .then(res => {
@@ -52,7 +52,18 @@ class NewNote extends Component {
             this.props.toggleLoading();
         } else {
             this.props.saveNotes(this.state.note);
+            this.handleDialog();
         }
+    }
+        
+
+    handleDialog() {
+        this.props.toggleDialog(
+            true, 
+            'You need to sign up to save your notes', 
+            () => this.props.history.push('/signup'), 
+            () => alert('button 2')
+        )
     }
 
     handleCheckbox(idx) {

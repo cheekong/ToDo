@@ -1,12 +1,29 @@
 import * as actionTypes from './actionTypes';
+import * as api from '../../utilities/api';
 //Action Creators below
 
-export const signIn = (userDetails) => {;
+const signIn = (fistname, lastname, notes) => {
     return {
         type: actionTypes.SIGNIN,
-        userDetails: userDetails
+        notes: notes,
+        firstname: fistname,
+        lastname: lastname
     }
 }
+
+export const login = (email, password) => {
+    return( dispatch, getState) => {
+        api.getAccount(email, password)
+        .then(res => {
+            const key = Object.keys(res);
+console.log('res[key],',res[key])
+            dispatch(signIn(res[key]));
+        })
+        .catch(err => {
+            console.log('login  err',err)
+        });
+    }
+} 
 
 export const signUp = (email, password) => {
     return {

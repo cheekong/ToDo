@@ -16,7 +16,13 @@ const signIn = (state, action) => {
     return {
         ...state,
         loaded: true,
-        userDetails: {...action.userDetails}
+        info: {
+            fistname: action.firstname,
+            lastname: action.lastname
+        },
+        notes: action.notes,
+        login: true,
+        loading: false
     };
 }
 

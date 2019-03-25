@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
+import { connect } from 'react-redux'
 
+import * as actionCreators from '../../store/actions/index';
 import ToDo from '../todo/todo';
 import NewNote from '../todo/NewNote/NewNote';
 import Login from '../login/login';
@@ -18,7 +20,36 @@ class Page extends Component {
            show: false,
            message: '',
            success: false
+       },
+       dialog: {
+           show: false,
+           title: '',
+           message: '',
+           onClose: null,
+           button1Function: null,
+           button2Function: null
        }
+    }
+
+    toggleDialog(showDialog, message, button1Function, button2Function){
+        let newDialogState = {...this.state.dialog, 
+            show: showDialog,
+            message: message,
+            button1Function: button1Function,
+            button2Function: button2Function
+        };
+    console.log('test2');
+        this.setState({dialog: newDialogState})
+    }
+
+    handleCloseDialog(){
+        let newDialogState = {...this.state.dialog, 
+            show: false,
+            message: '',
+            button1Function: null,
+            button2Function: null
+        };
+        this.setState({dialog: newDialogState})
     }
 
     toggleNoticeBar(success, message){
@@ -41,6 +72,27 @@ class Page extends Component {
 
     render(){
 console.log('this.state.noticeBar.show',this.state.noticeBar.show);
+console.log('this.state.dialog',this.state.dialog);
+        let navItems = null;
+        if(this.props.isLogin){
+            navItems = (
+                <nav>
+                    <Link className='navItem' to="/">New List</Link>
+                    <Link className='navItem' to="/list">List</Link>
+                    <Link className='navItem' to="/logout">Logout</Link>
+                </nav>
+            );
+        } else {
+            navItems = (
+                <nav>
+                    <Link className='navItem' to="/">New List</Link>
+                    <Link className='navItem' to="/list">List</Link>
+                    <Link className='navItem' to="/about">Login</Link>
+                    <Link className='navItem' to="/signup">Signup</Link>
+                </nav>
+            );
+        }
+
         return(
             
             <div id='page'>
@@ -53,21 +105,25 @@ console.log('this.state.noticeBar.show',this.state.noticeBar.show);
                             message={this.state.noticeBar.message}
                             onClose={()=>this.toggleNoticeBar(false,'')}
                         />
-                        <Dialog title='test title' message='test message' buttonLabel='test label'/>
-
-                        <nav>
-                            <Link className='navItem' to="/">New List</Link>
-                            <Link className='navItem' to="/list">List</Link>
-                            <Link className='navItem' to="/about">Login</Link>
-                            <Link className='navItem' to="/signup">Signup</Link>
-                        </nav>
-
+                        <Dialog
+                            showDialog={this.state.dialog.show} 
+                            title='test title' 
+                            message={this.state.dialog.message} 
+                            buttonLabel='test label'
+                            button1Function={this.state.dialog.button1Function}
+                            button2Function={this.state.dialog.button2Function}
+                            onClose={()=>this.handleCloseDialog()}
+                        />
+                        {navItems}
                         <hr />
 
                         <div id='page-content'>
                             <Route 
                                 exact path="/"
-                                render={(props) => <NewNote {...props} toggleNoticeBar={(success, message) => this.toggleNoticeBar(success, message)} />}
+                                render={(props) => <NewNote {...props} 
+                                    toggleNoticeBar={(success, message) => this.toggleNoticeBar(success, message)} 
+                                    toggleDialog={(showDialog, message, button1Function, button2Function)=> this.toggleDialog(showDialog, message, button1Function, button2Function)}
+                                    />}
                             />
                             <Route 
                                 path='/list'
@@ -89,4 +145,17 @@ console.log('this.state.noticeBar.show',this.state.noticeBar.show);
     }
 }
 
-export default Page;
+const mapStateToProps = state => {
+    return {
+      notes: state.user.notes,
+      isLogin: state.user.login,
+      loading: state.user.loading
+    }
+  }
+
+const mapDispatchToProps = dispatch => ({
+    saveNotes: (notes) => dispatch(actionCreators.saveNotes(notes)),
+    toggleLoading: () => dispatch(actionCreators.toggleLoading())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Page)

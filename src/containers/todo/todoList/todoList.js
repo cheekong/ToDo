@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
 
+import * as actionCreators from '../../../store/actions/index';
 import * as api from '../../../utilities/api';
-
 import './todoList.css';
 
 class TodoList extends Component {
@@ -36,6 +37,7 @@ class TodoList extends Component {
         for(let key of noteKeys){
 
             let noteItem = this.state.notes[key].note;
+console.log('noteItem',noteItem);
             let completeCount = 0;
             if(noteItem.items.completed){
                 completeCount = noteItem.items.completed.length;
@@ -73,16 +75,23 @@ class TodoList extends Component {
     }
 
     getNotes(){
-        api.getNotes()
-        .then(res => {
-            console.log('res',res);
+        if(this.props.login){
+            api.getNotes()
+            .then(res => {
+                console.log('res',res);
+                this.setState({
+                    notes: res
+                })
+            }) 
+            .catch(err => {
+                console.log('err',err);
+            });
+        } else {
+            console.log(this.props.notes);
             this.setState({
-                notes: res
+                notes: this.props.notes
             })
-        }) 
-        .catch(err => {
-            console.log('err',err);
-        })
+        }
     }
 
     componentDidUpdate(prevProps, prevState){
@@ -94,7 +103,7 @@ class TodoList extends Component {
     }
 
     render(){
-        let notes = null;
+        let notes = (<h1>You have no notes! :(</h1>);
         if(this.state.notes){
             notes = this.buildNotes();
         }
@@ -107,4 +116,17 @@ class TodoList extends Component {
     }
 }
 
-export default TodoList;
+const mapStateToProps = state => {
+    return {
+      notes: state.user.notes,
+      login: state.user.login,
+      loading: state.user.loading
+    }
+  }
+
+const mapDispatchToProps = dispatch => ({
+    saveNotes: (notes) => dispatch(actionCreators.saveNotes(notes)),
+    toggleLoading: () => dispatch(actionCreators.toggleLoading())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(TodoList)
