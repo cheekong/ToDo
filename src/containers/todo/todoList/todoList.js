@@ -31,7 +31,7 @@ class TodoList extends Component {
     }
 
     buildNotes(){
-
+console.log('notes', this.state.notes);
         let noteKeys = Object.keys(this.state.notes);
         let notes = [];
         for(let key of noteKeys){
@@ -74,9 +74,9 @@ console.log('noteItem',noteItem);
         )
     }
 
-    getNotes(){
+    getNotes(userId){
         if(this.props.login){
-            api.getNotes()
+            api.getNotes(userId)
             .then(res => {
                 console.log('res',res);
                 this.setState({
@@ -99,7 +99,7 @@ console.log('noteItem',noteItem);
     }
 
     componentDidMount() {
-        this.getNotes();
+        this.getNotes(this.props.userId);
     }
 
     render(){
@@ -120,7 +120,8 @@ const mapStateToProps = state => {
     return {
       notes: state.user.notes,
       login: state.user.login,
-      loading: state.user.loading
+      loading: state.user.loading,
+      userId: state.user.info.userId
     }
   }
 

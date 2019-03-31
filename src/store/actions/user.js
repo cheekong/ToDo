@@ -2,12 +2,12 @@ import * as actionTypes from './actionTypes';
 import * as api from '../../utilities/api';
 //Action Creators below
 
-const signIn = (fistname, lastname, notes) => {
+const signIn = (fistname, lastname, userId) => {
     return {
         type: actionTypes.SIGNIN,
-        notes: notes,
         firstname: fistname,
-        lastname: lastname
+        lastname: lastname,
+        userId: userId        
     }
 }
 
@@ -15,9 +15,12 @@ export const login = (email, password) => {
     return( dispatch, getState) => {
         api.getAccount(email, password)
         .then(res => {
+console.log('login res',res)
             const key = Object.keys(res);
-console.log('res[key],',res[key])
-            dispatch(signIn(res[key]));
+            const body = res[key[0]];
+console.log('res[key],',res[key[0]]);
+console.log('key', key[0]);
+            dispatch(signIn(email, password, key[0]));
         })
         .catch(err => {
             console.log('login  err',err)
@@ -45,11 +48,56 @@ export const toggleLoading = () => {
     }
 }
 
-export const saveNotes = (notes) => {
+export const setStatusAndLoading = (status, isLoading) => {
+    return {
+        type: actionTypes.SET_STATUS_LOADING,
+        status: status,
+        isLoading: isLoading
+    }
+}
+
+const saveNotesToStore = (notes) => {
 console.log('notes',notes);
     return {
         type: actionTypes.SAVE_NOTES,
         notes: notes
+    }
+}
+
+const saveNotesToLocalStorage = (notes) => {
+    let existingNotes = JSON.parse(localStorage.getItem('notes', notes));
+    let jsonNotes = null;
+    if(existingNotes){
+        jsonNotes = JSON.stringify([...existingNotes, notes]);
+        localStorage.setItem('notes', jsonNotes);
+    } else {
+        jsonNotes = JSON.stringify(notes);
+        localStorage.setItem('notes', jsonNotes);
+    }
+    
+}
+
+const saveNotesToDatabase = (notes, userId) => {
+    api.submitNote(notes, userId)
+    .then(res => {
+        if(res.status === 200){
+console.log('res',res);
+        }
+    })
+    .catch(err => {
+        alert('error when submit');
+    });
+}
+
+export const saveNotes = (notes, isLogin, userId) => {
+    console.log('notes',notes, 'islogin', isLogin);
+    return( dispatch, getState) => {
+        if(isLogin){
+            saveNotesToDatabase(notes, userId);
+        } else {
+            //saveNotesToLocalStorage(notes);
+            dispatch(saveNotesToStore(notes));
+        }
     }
 }
 

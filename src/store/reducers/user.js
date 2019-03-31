@@ -3,7 +3,8 @@ import * as actionTypes from '../actions/actionTypes';
 const initialState = {
     info: {
         firstname: null,
-        surname: null
+        surname: null,
+        userId: ''
     },
     notes: [],
     login: false,
@@ -13,14 +14,15 @@ const initialState = {
 }
 
 const signIn = (state, action) => {
+console.log('action', action);
     return {
         ...state,
         loaded: true,
         info: {
             fistname: action.firstname,
-            lastname: action.lastname
+            lastname: action.lastname,
+            userId: action.userId
         },
-        notes: action.notes,
         login: true,
         loading: false
     };
@@ -43,8 +45,18 @@ const logout = (state, action) => {
 }
 
 const saveNotes = (state, action) => {
+    let existingNotes = JSON.parse(localStorage.getItem('notes'));
+    let jsonNotes = null;
+    if(existingNotes){
+        jsonNotes = JSON.stringify([...existingNotes, action.notes]);
+        localStorage.setItem('notes', jsonNotes);
+    } else {
+        jsonNotes = JSON.stringify(action.notes);
+        localStorage.setItem('notes', jsonNotes);
+    }
+
 console.log('action',action);
-    let newStateNotes = JSON.parse(JSON.stringify(state.notes));
+    let newStateNotes = [JSON.parse(JSON.stringify(action.notes))];
     newStateNotes.push(action.notes);
 console.log('newStateNotes',newStateNotes);
     return {
@@ -61,6 +73,14 @@ const toggleLoading = (state, action) => {
     }
 }
 
+const setStatusAndLoading = (state, action) => {
+    return {
+        ...state,
+        loading: action.loading,
+        status: action.status
+    }
+}
+
 const reducer = (state = initialState, action) => {
     switch(action.type){
         case actionTypes.SIGNIN: return signIn(state, action);
@@ -68,6 +88,7 @@ const reducer = (state = initialState, action) => {
         case actionTypes.LOGOUT: return logout(state, action);
         case actionTypes.SAVE_NOTES: return saveNotes(state, action);
         case actionTypes.TOGGLE_LOADING: return toggleLoading(state, action);
+        case actionTypes.SET_STATUS_LOADING: return setStatusAndLoading(state,action);
         default: return state;
     }
 }

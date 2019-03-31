@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+import Form from '../../components/form/form';
 import * as api from '../../utilities/api';
 import './signup.css';
 
@@ -73,20 +74,22 @@ console.log('err',err);
         console.log('this.props', this.props);
         console.log('this.state', this.state);
 
-
+        const buttons = [
+            <input className='cta--forward' type='button' value="Sign me up" onClick={() => this.handleSubmit()}/>,
+            <input className='cta--forward' type='button' value="Already have an account" onClick={() => this.handleSubmit()}/>
+        ]
         return (
             <div id='signup'>
-                <form>
-                    <h1>Don't have an account? Quick easy signup!</h1>
+                <Form
+                    title="Don't have an account? Quick easy signup!"
+                    buttons={buttons}
+                >
                     <ul>
                         <li><input type='email' placeholder='Email' value={this.state.email} onChange={(event) => this.handleOnChange(event, 1)}/></li>
                         <li><input type='password' placeholder='Password' value={this.state.password} onChange={(event) => this.handleOnChange(event, 2)}/></li>
                         <li><input type='password' placeholder='Confirm password' value={this.state.confirmPassword} onChange={(event) => this.handleOnChange(event, 3)}/></li>
-                        <li><input className='cta--forward' type='button' value="Welcome aboard!" onClick={() => this.handleSubmit()}/></li>
                     </ul>
-                    <a>Already have an account? Click here to login</a>
-                    
-                </form>
+                </Form>
             </div>
         )
     }

@@ -38,22 +38,9 @@ class NewNote extends Component {
     handleSubmit(event){
         event.preventDefault();
         this.props.toggleLoading();
-        if(this.props.login){
-            api.submitNote(this.state.note)
-            .then(res => {
-                if(res.status === 200){
-                    console.log('props',this.props);
-                    this.props.toggleNoticeBar('success', this.state.note.title + ' Saved');
-                }
-            })
-            .catch(err => {
-                alert('error when submit');
-            });
-            this.props.toggleLoading();
-        } else {
-            this.props.saveNotes(this.state.note);
-            this.handleDialog();
-        }
+console.log('this.props.userId',this.props.userId);
+        this.props.saveNotes(this.state.note, this.props.isLogin, this.props.userId);
+        //this.handleDialog();
     }
         
 
@@ -261,13 +248,14 @@ class NewNote extends Component {
 const mapStateToProps = state => {
     return {
       notes: state.user.notes,
-      login: state.user.login,
-      loading: state.user.loading
+      isLogin: state.user.login,
+      loading: state.user.loading,
+      userId: state.user.info.userId
     }
   }
 
 const mapDispatchToProps = dispatch => ({
-    saveNotes: (notes) => dispatch(actionCreators.saveNotes(notes)),
+    saveNotes: (notes, isLogin, userId) => dispatch(actionCreators.saveNotes(notes, isLogin, userId)),
     toggleLoading: () => dispatch(actionCreators.toggleLoading())
 })
 

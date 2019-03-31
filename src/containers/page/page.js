@@ -73,25 +73,15 @@ class Page extends Component {
     render(){
 console.log('this.state.noticeBar.show',this.state.noticeBar.show);
 console.log('this.state.dialog',this.state.dialog);
-        let navItems = null;
-        if(this.props.isLogin){
-            navItems = (
-                <nav>
-                    <Link className='navItem' to="/">New List</Link>
-                    <Link className='navItem' to="/list">List</Link>
-                    <Link className='navItem' to="/logout">Logout</Link>
-                </nav>
-            );
-        } else {
-            navItems = (
-                <nav>
-                    <Link className='navItem' to="/">New List</Link>
-                    <Link className='navItem' to="/list">List</Link>
-                    <Link className='navItem' to="/about">Login</Link>
-                    <Link className='navItem' to="/signup">Signup</Link>
-                </nav>
-            );
-        }
+        let navItems = (
+            <nav>
+                {this.props.isLogin ? <Link className='navItem' to="/new">New Note</Link> : null}
+                <Link className='navItem' to="/">Signup</Link>
+                {!this.props.isLogin ? <Link className='navItem' to="/login">Login</Link> : null}
+                {this.props.isLogin ? <Link className='navItem' to="/list">list</Link> : null}
+                {this.props.isLogin ? <Link className='navItem' to="/logout">Logout</Link> : null}
+            </nav>
+        );
 
         return(
             
@@ -120,21 +110,29 @@ console.log('this.state.dialog',this.state.dialog);
                         <div id='page-content'>
                             <Route 
                                 exact path="/"
-                                render={(props) => <NewNote {...props} 
+                                render={(props) => <Signup {...props} 
                                     toggleNoticeBar={(success, message) => this.toggleNoticeBar(success, message)} 
                                     toggleDialog={(showDialog, message, button1Function, button2Function)=> this.toggleDialog(showDialog, message, button1Function, button2Function)}
                                     />}
                             />
                             <Route 
-                                path='/list'
-                                render={(props) => <TodoList {...props} toggleNoticeBar={(success, message) => this.toggleNoticeBar(success, message)} />}
+                                exact path="/login"
+                                render={(props) => <Login {...props} 
+                                    toggleNoticeBar={(success, message) => this.toggleNoticeBar(success, message)} 
+                                    toggleDialog={(showDialog, message, button1Function, button2Function)=> this.toggleDialog(showDialog, message, button1Function, button2Function)}
+                                    />}
                             />
                             <Route 
-                                path='/note'
+                                exact path="/list"
+                                render={(props) => <TodoList {...props} 
+                                    toggleNoticeBar={(success, message) => this.toggleNoticeBar(success, message)} 
+                                    toggleDialog={(showDialog, message, button1Function, button2Function)=> this.toggleDialog(showDialog, message, button1Function, button2Function)}
+                                    />}
+                            />
+                            <Route 
+                                path='/new'
                                 render={(props) => <ToDo {...props} toggleNoticeBar={(success, message) => this.toggleNoticeBar(success, message)} />}
                             />
-                            <Route path="/about" component={Login} />
-                            <Route path="/signup" component={Signup} />
                         </div>
                     </div>
                     

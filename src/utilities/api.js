@@ -2,9 +2,12 @@ import axios from 'axios';
 
 let axiosInstance = null;//axios.create({baseURL: baseURL});
 
-export const submitNote = (note) => new Promise((resolve, reject) => {
+const BASE_URL = 'https://notetaking-fce6f.firebaseio.com/users/';
+
+export const submitNote = (note, userId) => new Promise((resolve, reject) => {
+console.log('userid', userId)
     axios.post(
-        'https://notetaking-fce6f.firebaseio.com/note.json',
+        BASE_URL + userId + '/notes.json',
         {
             note: note
         }
@@ -17,9 +20,9 @@ export const submitNote = (note) => new Promise((resolve, reject) => {
     });
 });
 
-export const getNotes = () => new Promise((resolve, reject) => {
+export const getNotes = (userId) => new Promise((resolve, reject) => {
     axios.get(
-        'https://notetaking-fce6f.firebaseio.com/note.json'
+        BASE_URL + userId + '/notes.json'
     )
     .then(res => {
         resolve(res.data);
