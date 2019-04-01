@@ -1,50 +1,54 @@
 import React, { Component }  from 'react';
 import { connect } from 'react-redux'
 
+import Form from '../../components/form/form';
+import Input from '../../components/input/Input';
 import * as actionCreators from '../../store/actions/index';
 import * as api from '../../utilities/api';
 import './login.css';
 
 class Login extends Component {
+    state = {
+        username: '',
+        password: ''
+    }
+
+    handleOnChange(field, value){
+        this.setState({[field]: value})
+    }
 
     handleSubmit(email, password){
         this.props.toggleLoading();
         this.props.login(email, password);
-        /*
-        .then(res => {
-console.log('getAccount',res);
-        })
-        .catch(err => {
-
-        });
-        */
     }
 
     componentDidUpdate(prevProps){
         console.log(prevProps);
         if(!prevProps.isLogin && this.props.isLogin){
-            this.props.history.push('/');
+            this.props.history.push('/list');
         }
     }
 
     render(){
         return(
-            <div id='login'> 
-                <form>
-                    <h1>Welcome back :)</h1>
-                    <ul>
-                        <li>
-                            <input className='user' type='text' placeholder='Username'/>
-                        </li>
-                        <li>
-                            <input className='pass' type='password' placeholder='Password'/>
-                        </li>
-                        <li>
-                            <input className='cta--forward'type='button' value="Let's Go!" onClick={(event)=>this.handleSubmit(event)}/>
-                        </li>
-                    </ul>
-                    
-                </form>
+            <div id='login'>
+                <Form
+                    title="Hi again!"
+                    buttons={(<input className='cta--forward'type='button' value="Signin" onClick={(event)=>this.handleSubmit(event)}/>)}
+                >
+                    <Input 
+                        type='Username' 
+                        placeholder='Username' 
+                        value={this.state.username} 
+                        onChange={(event) => this.handleOnChange('username', event.target.value)}
+                    />
+                    <Input
+                        type='password' 
+                        placeholder='Password' 
+                        value={this.state.password} 
+                        onChange={(event) => this.handleOnChange('password', event.target.value)}
+                    />
+                </Form>
             </div>
         )
     }

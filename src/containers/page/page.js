@@ -76,7 +76,7 @@ console.log('this.state.dialog',this.state.dialog);
         let navItems = (
             <nav>
                 {this.props.isLogin ? <Link className='navItem' to="/new">New Note</Link> : null}
-                <Link className='navItem' to="/">Signup</Link>
+                {!this.props.isLogin ? <Link className='navItem' to="/login">Signup</Link> : null}
                 {!this.props.isLogin ? <Link className='navItem' to="/login">Login</Link> : null}
                 {this.props.isLogin ? <Link className='navItem' to="/list">list</Link> : null}
                 {this.props.isLogin ? <Link className='navItem' to="/logout">Logout</Link> : null}
@@ -130,8 +130,18 @@ console.log('this.state.dialog',this.state.dialog);
                                     />}
                             />
                             <Route 
-                                path='/new'
-                                render={(props) => <ToDo {...props} toggleNoticeBar={(success, message) => this.toggleNoticeBar(success, message)} />}
+                                exact path="/new"
+                                render={(props) => <NewNote {...props} 
+                                    toggleNoticeBar={(success, message) => this.toggleNoticeBar(success, message)} 
+                                    toggleDialog={(showDialog, message, button1Function, button2Function)=> this.toggleDialog(showDialog, message, button1Function, button2Function)}
+                                    />}
+                            />
+                            <Route 
+                                exact path="/note"
+                                render={(props) => <ToDo {...props} 
+                                    toggleNoticeBar={(success, message) => this.toggleNoticeBar(success, message)} 
+                                    toggleDialog={(showDialog, message, button1Function, button2Function)=> this.toggleDialog(showDialog, message, button1Function, button2Function)}
+                                    />}
                             />
                         </div>
                     </div>

@@ -32,10 +32,10 @@ export const getNotes = (userId) => new Promise((resolve, reject) => {
     });
 });
 
-export const getNote = (id) => new Promise((resolve, reject) => {
+export const getNote = (userId, noteId) => new Promise((resolve, reject) => {
     axios.get(
-        'https://notetaking-fce6f.firebaseio.com/note/' + id + '.json'
-    )
+        BASE_URL + userId + '/notes/' + noteId + '.json'
+        )
     .then(res => {
         resolve(res.data);
     })

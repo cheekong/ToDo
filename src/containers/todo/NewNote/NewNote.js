@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 
+import Form from '../../../components/form/form';
+import Input from '../../../components/input/Input';
 import * as actionCreators from '../../../store/actions/index';
 import * as api from '../../../utilities/api';
 
@@ -126,7 +128,7 @@ console.log('this.props.userId',this.props.userId);
             );
         } else {
             title = (
-                <input 
+                <Input 
                     type='text' 
                     placeholder='Title of your next adventure'
                     value={this.state.note.title}
@@ -136,20 +138,17 @@ console.log('this.props.userId',this.props.userId);
         }
         
         return (
-            <form id='todo'>
-                {title}
-                <div className='form--content'>
-                    {list}
-                </div>
-                <section className='form-content-actions'>
-                    <button className='todo-actions todo-actions__submit' onClick={(event) => this.handleSubmit(event)}>
-                        <i className="fas fa-check todo-actions-icon" />
-                    </button>
-                    <button className='todo-actions todo-actions__cancel' onClick={(event) => this.handleCancel(event)}>
+            <Form
+                title={title}
+                buttons={[<button className='todo-actions todo-actions__submit' onClick={(event) => this.handleSubmit(event)}>
+                <i className="fas fa-check todo-actions-icon" />
+            </button>, <button className='todo-actions todo-actions__cancel' onClick={(event) => this.handleCancel(event)}>
                         <i className="fas fa-times todo-actions-icon" />
                     </button>
-                </section>  
-            </form>
+            ]}
+            >
+                {list}
+            </Form>
         )
     }
 
@@ -175,19 +174,19 @@ console.log('this.props.userId',this.props.userId);
         let pendingItemsList = this.state.note.items.pending.map((item, idx) => {
             if(!item.checked){
                 return (
-                    <li key={idx}>
-                        <input 
+                    <div key={idx}>
+                        <Input 
                             type='checkbox' 
                             value='done'
                             checked={false} 
                             onChange={()=>this.handleCheckbox(idx)}/>
-                        <input 
+                        <Input 
                             type='text' 
                             value={item.description} 
                             onChange={(event) => this.handleInputDescription(idx, event)}
                             onKeyPress={event => this.handleKeyPress(idx, event)}
                             ref={idx === lastIndex ? this.state.textInput : null}/>
-                    </li>
+                    </div>
                 )
             } else {
                 return null;
@@ -202,18 +201,16 @@ console.log('this.props.userId',this.props.userId);
         if(this.state.note.items.completed && this.state.note.items.completed.length){
             completedItemsList = this.state.note.items.completed.map((item, idx) => {
                 return (
-                    <li key={idx + '__completed'} className='completedItems'>
-                        <s>
-                            <p onClick={() => this.handleOnClick(idx)}>
-                            <input 
-                                type='checkbox' 
-                                value='undo' 
-                                checked={true} 
-                                onChange={()=>this.handleOnClick(idx)}/>
-                                {item.description}
-                            </p>
-                        </s>
-                    </li>
+                    <s key={idx + '__completed'} className='completedItems'>
+                        <p onClick={() => this.handleOnClick(idx)}>
+                        <Input 
+                            type='checkbox' 
+                            value='undo' 
+                            checked={true} 
+                            onChange={()=>this.handleOnClick(idx)}/>
+                            {item.description}
+                        </p>
+                    </s>
                 )
             });
         }
@@ -222,7 +219,7 @@ console.log('this.props.userId',this.props.userId);
     }
 
     componentDidMount() {
-        this.focusTextInput();
+        //this.focusTextInput();
     }
 
     render(){
@@ -236,12 +233,7 @@ console.log('this.props.userId',this.props.userId);
             content = this.buildForm();
         }
 
-        return (
-            <section>
-                {loading}
-                {content}
-            </section>
-        );
+        return content;
     }
 }
 

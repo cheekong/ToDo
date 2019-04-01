@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import Form from '../../components/form/form';
+import Input from '../../components/input/Input';
 import * as api from '../../utilities/api';
 import './signup.css';
 
@@ -84,11 +85,24 @@ console.log('err',err);
                     title="Don't have an account? Quick easy signup!"
                     buttons={buttons}
                 >
-                    <ul>
-                        <li><input type='email' placeholder='Email' value={this.state.email} onChange={(event) => this.handleOnChange(event, 1)}/></li>
-                        <li><input type='password' placeholder='Password' value={this.state.password} onChange={(event) => this.handleOnChange(event, 2)}/></li>
-                        <li><input type='password' placeholder='Confirm password' value={this.state.confirmPassword} onChange={(event) => this.handleOnChange(event, 3)}/></li>
-                    </ul>
+                    <Input 
+                        type='email' 
+                        placeholder='Email' 
+                        value={this.state.email} 
+                        onChange={(event) => this.handleOnChange(event, 1)}
+                    />
+                    <Input
+                        type='password' 
+                        placeholder='Password' 
+                        value={this.state.password} 
+                        onChange={(event) => this.handleOnChange(event, 2)}
+                    />
+                    <Input 
+                        type='password' 
+                        placeholder='Confirm password' 
+                        value={this.state.confirmPassword} 
+                        onChange={(event) => this.handleOnChange(event, 3)}
+                    />
                 </Form>
             </div>
         )

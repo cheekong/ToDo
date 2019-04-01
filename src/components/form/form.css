@@ -1,9 +1,12 @@
 .app-form {
-
+    display: flex;
+    flex-flow: column;
+    align-items: center;
 }
 
 .app-form-component {
     padding: 20px 0;
+    width: 70%;
 }
 
 .app-form-heading {
@@ -11,6 +14,11 @@
 }
 
 .app-form-content {
+
+    
+}
+
+.app-form-content > input {
 
 }
 

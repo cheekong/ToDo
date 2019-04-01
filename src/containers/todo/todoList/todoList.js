@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 
+import Form from '../../../components/form/form';
 import * as actionCreators from '../../../store/actions/index';
 import * as api from '../../../utilities/api';
 import './todoList.css';
 
 class TodoList extends Component {
     state = {
-       notes: null
+       notes: null,
+       loading: true,
+       message: ''
     }
 
     
@@ -80,7 +83,8 @@ console.log('noteItem',noteItem);
             .then(res => {
                 console.log('res',res);
                 this.setState({
-                    notes: res
+                    notes: res,
+                    loading: false
                 })
             }) 
             .catch(err => {
@@ -103,15 +107,18 @@ console.log('noteItem',noteItem);
     }
 
     render(){
-        let notes = (<h1>You have no notes! :(</h1>);
-        if(this.state.notes){
-            notes = this.buildNotes();
+        let content = <div><i class="fas fa-spinner fa-spin"/></div>;
+        if(!this.state.loading && this.state.notes){
+            content = this.buildNotes();
+        } else if(!this.state.loading && this.state.notes === null) {
+            content = (<h1>You have no notes! :(</h1>);
         }
 
+        
         return(
-          <div>
-            {notes}
-          </div>
+            <Form>
+                {content}
+            </Form>
         )
     }
 }

@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
+import Form from '../../components/form/form';
+import Input from '../../components/input/Input';
+import * as actionCreators from '../../store/actions/index';
 import * as api from '../../utilities/api';
-
 import './todo.css';
 
 class Todo extends Component {
@@ -121,7 +124,7 @@ class Todo extends Component {
             );
         } else {
             title = (
-                <input 
+                <Input 
                     type='text' 
                     placeholder='Title of your next adventure'
                     value={this.state.note.title}
@@ -131,23 +134,19 @@ class Todo extends Component {
         }
         
         return (
-            <form id='todo'>
-                {title}
-                <div className='form--content'>
-                    {list}
-                </div>
-                <section className='form-content-actions'>
-                    <button className='todo-actions todo-actions__submit' onClick={(event) => this.handleSubmit(event)}>
-                        <i className="fas fa-check todo-actions-icon" />
-                    </button>
-                    <button className='todo-actions todo-actions__cancel' onClick={(event) => this.handleCancel(event)}>
-                        <i className="fas fa-times todo-actions-icon" />
-                    </button>
-                    <button className='todo-actions todo-actions__cancel'>
-                        <i  className="far fa-trash-alt"/>
-                    </button>
-                </section>  
-            </form>
+            <Form title={title}
+                button={[<button className='todo-actions todo-actions__submit' onClick={(event) => this.handleSubmit(event)}>
+                <i className="fas fa-check todo-actions-icon" />
+            </button>,
+            <button className='todo-actions todo-actions__cancel' onClick={(event) => this.handleCancel(event)}>
+                <i className="fas fa-times todo-actions-icon" />
+            </button>,
+            <button className='todo-actions todo-actions__cancel'>
+                <i  className="far fa-trash-alt"/>
+            </button>]}
+            >
+                {list}
+            </Form>
         )
     }
 
@@ -174,12 +173,12 @@ class Todo extends Component {
             if(!item.checked){
                 return (
                     <li key={idx}>
-                        <input 
+                        <Input 
                             type='checkbox' 
                             value='done'
                             checked={false} 
                             onChange={()=>this.handleCheckbox(idx)}/>
-                        <input 
+                        <Input 
                             type='text' 
                             value={item.description} 
                             onChange={(event) => this.handleInputDescription(idx, event)}
@@ -203,7 +202,7 @@ class Todo extends Component {
                     <li key={idx + '__completed'} className='completedItems'>
                         <s>
                             <p onClick={() => this.handleOnClick(idx)}>
-                            <input 
+                            <Input 
                                 type='checkbox' 
                                 value='undo' 
                                 checked={true} 
@@ -226,12 +225,13 @@ class Todo extends Component {
     }
 
     componentDidMount() {
+console.log('this.props.history', this.props.history);
         if(this.props.history &&
             this.props.history.location && 
             this.props.history.location.state && 
             this.props.history.location.state.noteID)
         {
-            api.getNote(this.props.history.location.state.noteID)
+            api.getNote(this.props.userId, this.props.history.location.state.noteID)
             .then(res => {
                 this.setState({
                     note: res.note,
@@ -254,4 +254,17 @@ class Todo extends Component {
     }
 }
 
-export default Todo;
+const mapStateToProps = state => {
+    return {
+        isLogin: state.user.login,
+        loading: state.user.loading,
+        userId: state.user.info.userId
+      }
+}
+
+const mapDispatchToProps = dispatch => ({
+    saveNotes: (notes, isLogin, userId) => dispatch(actionCreators.saveNotes(notes, isLogin, userId)),
+    toggleLoading: () => dispatch(actionCreators.toggleLoading())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Todo)
