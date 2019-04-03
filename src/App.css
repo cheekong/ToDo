@@ -55,20 +55,19 @@ form #form--title {
 form .form--content {
   padding:40px 40px;
 }
-
+/*
 form input[type=text] {
   height:40px;
   width: 300px;
   margin-left: 0px;
   margin-bottom: 20px;
   border: 0;
-  /*border-radius: 20px;
-  background-color: lightgray;*/
   text-indent: 20px;
   background-color: transparent;
   border: none;
   border-bottom: 1px solid #CCC;
 }
+*/
 
 form input[type=checkbox] {
   height:20px;

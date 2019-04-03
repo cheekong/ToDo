@@ -1,0 +1,18 @@
+.note-container-item-pending {
+    display: flex;
+    background-color: lightgray;
+    border-radius: 5px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+}
+
+.note-container-item-pending input[type='text']{
+    background-color: transparent;
+    border: 0;
+    padding-left:10px;
+}
+
+.note-container-item-pending input[type='text']:focus {
+    outline-width: 0;
+}

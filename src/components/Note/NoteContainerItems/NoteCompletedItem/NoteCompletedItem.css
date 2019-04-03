@@ -1,0 +1,19 @@
+.note-container-item-completed {
+    display: flex;
+    background-color: lightgray;
+    border-radius: 5px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+}
+
+.note-container-item-completed p {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.note-container-item-completed p {
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left:10px;
+}

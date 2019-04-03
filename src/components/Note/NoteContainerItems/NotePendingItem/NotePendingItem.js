@@ -1,7 +1,9 @@
 import React from 'react';
 
+import './NotePendingItem.css';
+
 const NotePendingItem = ({className='', ...props}) => {
-    let componentClassName = ['note-container-item', ...className];
+    let componentClassName = ['note-container-item-pending', ...className];
     return (
         <div className={componentClassName.join()}>
             <input 

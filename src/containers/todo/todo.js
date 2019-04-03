@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 
 import Form from '../../components/form/form';
 import Input from '../../components/input/Input';
-import NoteContainerItem from '../../components/Note/NoteContainerItems/NotePendingItem/NotePendingItem';
+import NoteContainerPendingItem from '../../components/Note/NoteContainerItems/NotePendingItem/NotePendingItem';
+import NoteContainerCompletedItem from '../../components/Note/NoteContainerItems/NoteCompletedItem/NoteCompletedItem';
 import * as actionCreators from '../../store/actions/index';
 import * as api from '../../utilities/api';
 import './todo.css';
@@ -43,7 +44,6 @@ class Todo extends Component {
         api.submitNote(this.state.note)
         .then(res => {
             if(res.status === 200){
-                console.log('props',this.props);
                 this.props.toggleNoticeBar('success', this.state.note.title + ' Saved');
             }
         })
@@ -53,11 +53,18 @@ class Todo extends Component {
     }
 
     handleCheckbox(idx) {
-console.log('handleCheckbox idx ', idx);
         let noteCopy = JSON.parse(JSON.stringify(this.state.note));
-console.log('noteCopy',noteCopy);
         noteCopy.items.completed.push({...noteCopy.items.pending[idx]});
-        noteCopy.items.pending.splice(idx, 1)
+        noteCopy.items.pending.splice(idx, 1);
+        if(noteCopy.items.pending.length === 0){
+            noteCopy.items.pending.push(
+                {
+                    id: 0,
+                    checked: false,
+                    description: ''
+                }
+            );
+        }
         this.setState({note: noteCopy});
     }
 
@@ -133,7 +140,8 @@ console.log('noteCopy',noteCopy);
                     value={this.state.note.title}
                     onChange={(event) => this.handleTitleKeyPress(event)}
                     onKeyPress={(event)=>this.handleTitleKeyPress(event)}
-                    />)
+                />
+            )
         }
         
         return (
@@ -175,28 +183,13 @@ console.log('noteCopy',noteCopy);
         let pendingItemsList = this.state.note.items.pending.map((item, idx) => {
             if(!item.checked){
                 return (
-                    <NoteContainerItem
+                    <NoteContainerPendingItem
                         key={idx} 
                         value={item.description}
                         handleCheckBox={() => this.handleCheckbox(idx)}
                         onChange={(event) => this.handleInputDescription(idx, event)}
                         onKeyPress={event => this.handleKeyPress(idx, event)}
                     />
-                    /*
-                    <li key={idx}>
-                        <Input 
-                            type='checkbox' 
-                            value='done'
-                            checked={false} 
-                            onChange={()=>this.handleCheckbox(idx)}/>
-                        <Input 
-                            type='text' 
-                            value={item.description} 
-                            onChange={(event) => this.handleInputDescription(idx, event)}
-                            onKeyPress={event => this.handleKeyPress(idx, event)}
-                            ref={idx === lastIndex ? this.state.textInput : null}/>
-                    </li>
-                    */
                 )
             } else {
                 return null;
@@ -211,28 +204,14 @@ console.log('noteCopy',noteCopy);
         if(this.state.note.items.completed && this.state.note.items.completed.length){
             completedItemsList = this.state.note.items.completed.map((item, idx) => {
                 return (
-                    <NoteContainerItem
+                    <NoteContainerCompletedItem
                         key={idx + '__completed'} 
                         completed
                         value={item.description}
-                        handleCheckBox={() => this.handleCheckbox(idx)}
+                        handleCheckBox={() => this.handleOnClick(idx)}
                         onChange={(event) => this.handleInputDescription(idx, event)}
                         onKeyPress={event => this.handleKeyPress(idx, event)}
                     />
-                    /*
-                    <li key={idx + '__completed'} className='completedItems'>
-                        <s>
-                            <p onClick={() => this.handleOnClick(idx)}>
-                            <Input 
-                                type='checkbox' 
-                                value='undo' 
-                                checked={true} 
-                                onChange={()=>this.handleOnClick(idx)}/>
-                                {item.description}
-                            </p>
-                        </s>
-                    </li>
-                    */
                 )
             });
         }
@@ -247,7 +226,6 @@ console.log('noteCopy',noteCopy);
     }
 
     componentDidMount() {
-console.log('this.props.history', this.props.history);
         if(this.props.history &&
             this.props.history.location && 
             this.props.history.location.state && 
@@ -255,11 +233,10 @@ console.log('this.props.history', this.props.history);
         {
             api.getNote(this.props.userId, this.props.history.location.state.noteID)
             .then(res => {
-console.log('res',res);
-if(res.note.items.completed === undefined){
-    res.note.items.completed = [];
-}
-console.log('res',res)
+                if(res.note.items.completed === undefined){
+                    res.note.items.completed = [];
+                }
+console.log('res.note',res.note);
                 this.setState({
                     note: res.note,
                     loading: false
