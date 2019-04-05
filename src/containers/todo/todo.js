@@ -4,8 +4,6 @@ import { connect } from 'react-redux';
 import Form from '../../components/form/form';
 import Input from '../../components/input/Input';
 import NoteContainer from '../../components/Note/NoteContainer/NoteContainer';
-import NoteContainerPendingItem from '../../components/Note/NoteContainerItems/NotePendingItem/NotePendingItem';
-import NoteContainerCompletedItem from '../../components/Note/NoteContainerItems/NoteCompletedItem/NoteCompletedItem';
 import * as actionCreators from '../../store/actions/index';
 import * as api from '../../utilities/api';
 import './todo.css';
