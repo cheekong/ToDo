@@ -11,6 +11,7 @@
     background-color: transparent;
     border: 0;
     padding-left:10px;
+    padding-right:10px;
 }
 
 .note-container-item-pending input[type='text']:focus {

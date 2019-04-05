@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import Form from '../../components/form/form';
 import Input from '../../components/input/Input';
+import NoteContainer from '../../components/Note/NoteContainer/NoteContainer';
 import NoteContainerPendingItem from '../../components/Note/NoteContainerItems/NotePendingItem/NotePendingItem';
 import NoteContainerCompletedItem from '../../components/Note/NoteContainerItems/NoteCompletedItem/NoteCompletedItem';
 import * as actionCreators from '../../store/actions/index';
@@ -52,7 +53,12 @@ class Todo extends Component {
         });
     }
 
-    handleCheckbox(idx) {
+    handleCancel(event) {
+        event.preventDefault();
+        this.props.history.push('/list');
+    }
+
+    pendingItemHandleCheckBox(idx) {
         let noteCopy = JSON.parse(JSON.stringify(this.state.note));
         noteCopy.items.completed.push({...noteCopy.items.pending[idx]});
         noteCopy.items.pending.splice(idx, 1);
@@ -68,19 +74,18 @@ class Todo extends Component {
         this.setState({note: noteCopy});
     }
 
-    handleCancel(event) {
-        event.preventDefault();
-        this.props.history.push('/list');
-    }
+    
 
-    handleOnClick(idx){
+    completedHandleOnClick(idx){
+console.log('args', idx);
         let noteCopy = JSON.parse(JSON.stringify(this.state.note));
         noteCopy.items.pending.push({...noteCopy.items.completed[idx]});
         noteCopy.items.completed.splice(idx, 1)
         this.setState({note: noteCopy});
     }
 
-    handleInputDescription(id, event) {
+    pendingItemOnChange(id, event) {
+console.log('args',arguments);
         event.preventDefault();
         let noteCopy = JSON.parse(JSON.stringify(this.state.note));
         if(event.key === 'Enter'){
@@ -95,7 +100,7 @@ class Todo extends Component {
         this.setState({note: noteCopy});
     }
 
-    handleKeyPress(id, event) {
+    pendingItemOnKeyPress(id, event) {
         event.preventDefault();
         let noteCopy = JSON.parse(JSON.stringify(this.state.note));
         if(event.key === 'Enter'){
@@ -124,7 +129,6 @@ class Todo extends Component {
     }
 
     buildForm() {
-        let list = this.buildList();
         let title = null;
         if(!this.state.titleChange){
             title = (
@@ -135,8 +139,9 @@ class Todo extends Component {
         } else {
             title = (
                 <Input 
+                    className='center-text title-input'
                     type='text' 
-                    placeholder='Title of your next adventure'
+                    placeholder='Title'
                     value={this.state.note.title}
                     onChange={(event) => this.handleTitleKeyPress(event)}
                     onKeyPress={(event)=>this.handleTitleKeyPress(event)}
@@ -146,7 +151,7 @@ class Todo extends Component {
         
         return (
             <Form title={title}
-                button={[<button className='todo-actions todo-actions__submit' onClick={(event) => this.handleSubmit(event)}>
+                buttons={[<button className='todo-actions todo-actions__submit' onClick={(event) => this.handleSubmit(event)}>
                 <i className="fas fa-check todo-actions-icon" />
             </button>,
             <button className='todo-actions todo-actions__cancel' onClick={(event) => this.handleCancel(event)}>
@@ -156,67 +161,15 @@ class Todo extends Component {
                 <i  className="far fa-trash-alt"/>
             </button>]}
             >
-                {list}
+                <NoteContainer 
+                    data={this.state.note.items}
+                    completedHandleOnClick={(idx) => this.completedHandleOnClick(idx)}
+                    pendingItemHandleCheckBox={(idx) => this.pendingItemHandleCheckBox(idx)}
+                    pendingItemOnChange={(idx, event) => this.pendingItemOnChange(idx, event)}
+                    pendingItemOnKeyPress={(idx, event) => this.pendingItemOnKeyPress(idx, event)}
+                />
             </Form>
         )
-    }
-
-    
-    buildList() {
-        let pendingItemsList = this.buildPendingList();
-        let completedItemsList = this.buildCompleteList();
-
-        return (
-            <section>
-                <ul>
-                    {pendingItemsList}
-                </ul>
-                <ul>
-                    {completedItemsList}
-                </ul>
-            </section>
-        )
-    }
-
-    buildPendingList() {
-        let lastIndex = this.state.note.items.pending.length - 1;
-        let pendingItemsList = this.state.note.items.pending.map((item, idx) => {
-            if(!item.checked){
-                return (
-                    <NoteContainerPendingItem
-                        key={idx} 
-                        value={item.description}
-                        handleCheckBox={() => this.handleCheckbox(idx)}
-                        onChange={(event) => this.handleInputDescription(idx, event)}
-                        onKeyPress={event => this.handleKeyPress(idx, event)}
-                    />
-                )
-            } else {
-                return null;
-            }
-        });
-
-        return pendingItemsList;
-    }
-
-    buildCompleteList() {
-        let completedItemsList = null;
-        if(this.state.note.items.completed && this.state.note.items.completed.length){
-            completedItemsList = this.state.note.items.completed.map((item, idx) => {
-                return (
-                    <NoteContainerCompletedItem
-                        key={idx + '__completed'} 
-                        completed
-                        value={item.description}
-                        handleCheckBox={() => this.handleOnClick(idx)}
-                        onChange={(event) => this.handleInputDescription(idx, event)}
-                        onKeyPress={event => this.handleKeyPress(idx, event)}
-                    />
-                )
-            });
-        }
-
-        return completedItemsList;
     }
 
     componentDidUpdate(prevProps, prevState){
@@ -253,7 +206,6 @@ console.log('res.note',res.note);
         if(!this.state.loading){
             content = this.buildForm();
         }
-
         return content;
     }
 }

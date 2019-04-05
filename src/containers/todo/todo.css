@@ -46,3 +46,11 @@
     list-style: none;
     display: flex;
 }
+
+.center-text {
+    text-align: center;
+}
+
+.title-input {
+    font-size: 30px;
+}
