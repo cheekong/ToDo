@@ -25,7 +25,7 @@ class Login extends Component {
     componentDidUpdate(prevProps){
         console.log(prevProps);
         if(!prevProps.isLogin && this.props.isLogin){
-            this.props.history.push('/list');
+            this.props.history.push('/note');
         }
     }
 
@@ -63,7 +63,6 @@ const mapStateToProps = state => {
   }
 
 const mapDispatchToProps = dispatch => ({
-    saveNotes: (notes) => dispatch(actionCreators.saveNotes(notes)),
     toggleLoading: () => dispatch(actionCreators.toggleLoading()),
     login: (email, password) => dispatch(actionCreators.login(email, password))
 })

@@ -3,5 +3,6 @@ export {
     signUp,
     logout,
     toggleLoading,
-    saveNotes
+    updateNote,
+    saveNewNote
 } from './user.js';

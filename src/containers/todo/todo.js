@@ -27,28 +27,33 @@ class Todo extends Component {
         textInput: React.createRef(),
         titleChange: true,
         loading: true,
-        form: null
+        form: null,
+        noteId: null
     }
 
     focusTextInput() {
         this.state.textInput.current.focus();
     }
 
-    newRow(){
-
-    }
-
     handleSubmit(event){
         event.preventDefault();
-        api.submitNote(this.state.note)
-        .then(res => {
-            if(res.status === 200){
-                this.props.toggleNoticeBar('success', this.state.note.title + ' Saved');
-            }
-        })
-        .catch(err => {
-            alert('error when submit');
-        });
+        this.props.toggleLoading();
+        if(this.state.noteId === null){
+            this.props.saveNewNote(
+                this.state.note, 
+                this.props.isLogin, 
+                this.props.userId
+            );
+        } else {
+            //otherwise update an existing note.
+            this.props.updateNote(
+                this.state.note, 
+                this.props.isLogin, 
+                this.props.userId,
+                this.state.noteId
+            );
+        }
+        
     }
 
     handleCancel(event) {
@@ -75,7 +80,6 @@ class Todo extends Component {
     
 
     completedHandleOnClick(idx){
-console.log('args', idx);
         let noteCopy = JSON.parse(JSON.stringify(this.state.note));
         noteCopy.items.pending.push({...noteCopy.items.completed[idx]});
         noteCopy.items.completed.splice(idx, 1)
@@ -83,7 +87,6 @@ console.log('args', idx);
     }
 
     pendingItemOnChange(id, event) {
-console.log('args',arguments);
         event.preventDefault();
         let noteCopy = JSON.parse(JSON.stringify(this.state.note));
         if(event.key === 'Enter'){
@@ -174,28 +177,39 @@ console.log('args',arguments);
         if(this.state.note.items.pending.length > prevState.note.items.pending.length){
             //this.focusTextInput();
         }
+
+        if(!this.props.loading && prevProps.loading){
+            this.props.toggleNoticeBar('success', this.state.note.title + ' Saved');
+        }
+console.log('this.state.noteId', this.state.noteId);
     }
 
     componentDidMount() {
         if(this.props.history &&
             this.props.history.location && 
             this.props.history.location.state && 
-            this.props.history.location.state.noteID)
+            this.props.history.location.state.noteId)
         {
-            api.getNote(this.props.userId, this.props.history.location.state.noteID)
+            const noteId = this.props.history.location.state.noteId;
+            api.getNote(this.props.userId, noteId)
             .then(res => {
-                if(res.note.items.completed === undefined){
-                    res.note.items.completed = [];
+                if(res.items.completed === undefined){
+                    res.items.completed = [];
                 }
-console.log('res.note',res.note);
                 this.setState({
-                    note: res.note,
+                    note: res,
+                    noteId: noteId,
                     loading: false
-                })
+                });
             })
             .catch(err => {
-
+                alert('ERROR');
+                console.log('err',err);
             })
+        } else {
+            this.setState({
+                loading: false
+            });
         }
     }
 
@@ -217,7 +231,8 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
-    saveNotes: (notes, isLogin, userId) => dispatch(actionCreators.saveNotes(notes, isLogin, userId)),
+    saveNewNote: (notes, isLogin, userId) => dispatch(actionCreators.saveNewNote(notes, isLogin, userId)),
+    updateNote: (notes, isLogin, userId, noteId) => dispatch(actionCreators.updateNote(notes, isLogin, userId, noteId)),
     toggleLoading: () => dispatch(actionCreators.toggleLoading())
 })
 

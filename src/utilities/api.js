@@ -1,28 +1,48 @@
 import axios from 'axios';
 
-let axiosInstance = null;//axios.create({baseURL: baseURL});
-
 const BASE_URL = 'https://notetaking-fce6f.firebaseio.com/users/';
+const axiosInstance = axios.create({baseURL: BASE_URL});
 
-export const submitNote = (note, userId) => new Promise((resolve, reject) => {
-console.log('userid', userId)
-    axios.post(
-        BASE_URL + userId + '/notes.json',
-        {
-            note: note
-        }
+
+
+export const submitNote = (notes, userId) => new Promise((resolve, reject) => {
+console.log('submitNote notes', notes)
+    axiosInstance.post(
+        userId + '/notes.json',
+        notes
     )
     .then(res => {
+console.log('submit note then res', res);
         resolve(res);
     })
     .catch(err => {
+console.log('submit note then err', err);
         reject(err);
     });
 });
 
+
+
+//WIP
+export const updateNote = (notes, userId, noteId) => new Promise((resolve, reject) => {
+    console.log('updateNote called', userId, 'noteId', noteId);
+        axiosInstance.put(
+            userId + '/notes/' + noteId + '.json',
+            notes
+        )
+        .then(res => {
+    console.log('updateNote note then res', res);
+            resolve(res);
+        })
+        .catch(err => {
+    console.log('updateNote note then err', err);
+            reject(err);
+        });
+    });
+
 export const getNotes = (userId) => new Promise((resolve, reject) => {
-    axios.get(
-        BASE_URL + userId + '/notes.json'
+    axiosInstance.get(
+        userId + '/notes.json'
     )
     .then(res => {
         resolve(res.data);
@@ -33,10 +53,12 @@ export const getNotes = (userId) => new Promise((resolve, reject) => {
 });
 
 export const getNote = (userId, noteId) => new Promise((resolve, reject) => {
-    axios.get(
-        BASE_URL + userId + '/notes/' + noteId + '.json'
+console.log('getNote call()', userId, noteId);
+    axiosInstance.get(
+        userId + '/notes/' + noteId + '.json'
         )
     .then(res => {
+console.log('getNote res', res)
         resolve(res.data);
     })
     .catch(err => {
@@ -44,9 +66,9 @@ export const getNote = (userId, noteId) => new Promise((resolve, reject) => {
     })
 })
 
-export const deleteNote = (id) => new Promise((resolve, reject) => {
-    axios.delete(
-        'https://notetaking-fce6f.firebaseio.com/note/' + id + '.json'
+export const deleteNote = (userId, noteId) => new Promise((resolve, reject) => {
+    axiosInstance.delete(
+        userId + '/notes/' + noteId + '.json'
     )
     .then(res => {
         resolve(res.data);
@@ -57,8 +79,8 @@ export const deleteNote = (id) => new Promise((resolve, reject) => {
 })
 
 export const createAccount = (email, password) => new Promise((resolve, reject) => {
-    axios.post(
-        'https://notetaking-fce6f.firebaseio.com/users.json',
+    axiosInstance.post(
+        //'https://notetaking-fce6f.firebaseio.com/users.json',
         {
             email: email,
             password: password
@@ -73,7 +95,7 @@ export const createAccount = (email, password) => new Promise((resolve, reject) 
 })
 
 export const checkExists = (email) => new Promise((resolve, reject) => {
-    axios.get(
+    axiosInstance.get(
         'https://notetaking-fce6f.firebaseio.com/users.json?shallow=true&orderBy="email"&startAt="' + email + '"',
     )
     .then(res => {
@@ -85,8 +107,8 @@ export const checkExists = (email) => new Promise((resolve, reject) => {
 })
 
 export const getAccount = (email, password) => new Promise((resolve, reject) => {
-    axios.get(
-        'https://notetaking-fce6f.firebaseio.com/users.json'
+    axiosInstance.get(
+        '.json'
     )
     .then(res => {
         resolve(res.data);

@@ -247,7 +247,7 @@ const mapStateToProps = state => {
   }
 
 const mapDispatchToProps = dispatch => ({
-    saveNotes: (notes, isLogin, userId) => dispatch(actionCreators.saveNotes(notes, isLogin, userId)),
+    saveNotes: (notes, isLogin, userId) => dispatch(actionCreators.saveNewNote(notes, isLogin, userId)),
     toggleLoading: () => dispatch(actionCreators.toggleLoading())
 })
 

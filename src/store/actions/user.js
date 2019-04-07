@@ -15,11 +15,8 @@ export const login = (email, password) => {
     return( dispatch, getState) => {
         api.getAccount(email, password)
         .then(res => {
-console.log('login res',res)
             const key = Object.keys(res);
             const body = res[key[0]];
-console.log('res[key],',res[key[0]]);
-console.log('key', key[0]);
             dispatch(signIn(email, password, key[0]));
         })
         .catch(err => {
@@ -42,7 +39,8 @@ export const logout = () => {
     }
 }
 
-export const toggleLoading = () => {
+export const toggleLoading = (test) => {
+console.log('actions toggleLoading', test);
     return {
         type: actionTypes.TOGGLE_LOADING
     }
@@ -77,29 +75,72 @@ const saveNotesToLocalStorage = (notes) => {
     
 }
 
-const saveNotesToDatabase = (notes, userId) => {
-    api.submitNote(notes, userId)
-    .then(res => {
-        if(res.status === 200){
-console.log('res',res);
-        }
-    })
-    .catch(err => {
-        alert('error when submit');
-    });
+const saveNoteToDatabase = (notes, userId) => {
+    return (dispatch, getState) => {
+        api.submitNote(notes, userId)
+        .then(res => {
+    console.log('saveNotesToDatabase api.submitNote res',res)
+            dispatch(toggleLoading('test'));
+        })
+        .catch(err => {
+            console.error('error when submit');
+            console.error('err', err);
+        });
+    }
 }
 
-export const saveNotes = (notes, isLogin, userId) => {
-    console.log('notes',notes, 'islogin', isLogin);
+const updateNoteToDatabase = (note, userId, noteId) => {
+    return (dispatch, getState) => {
+        api.updateNote(note, userId, noteId)
+        .then(res => {
+    console.log('updateNoteToDatabase res',res)
+            dispatch(toggleLoading('test'));
+        })
+        .catch(err => {
+            console.error('error when submit');
+            console.error('updateNoteToDatabase err', err);
+        });
+    }
+}
+
+export const saveNewNote = (notes, isLogin, userId) => {
     return( dispatch, getState) => {
         if(isLogin){
-            saveNotesToDatabase(notes, userId);
+            dispatch(saveNoteToDatabase(notes, userId));
         } else {
             //saveNotesToLocalStorage(notes);
             dispatch(saveNotesToStore(notes));
         }
     }
 }
+
+export const updateNote = (note, isLogin, userId, noteId) => {
+    console.log('updateNote note', note)
+    console.log('updateNote isLogin', isLogin)
+    console.log('updateNote userId', userId)
+console.log('updateNote noteId', noteId)
+    return( dispatch, getState) => {
+        if(isLogin){
+            dispatch(updateNoteToDatabase(note, userId, noteId));
+        } else {
+            //saveNotesToLocalStorage(notes);
+            dispatch(saveNotesToStore(note));
+        }
+    }
+}
+
+//TODO:
+export const deleteNote = (noteId, isLogin, userId) => {
+    alert('actions saveNotes');
+        return( dispatch, getState) => {
+            if(isLogin){
+                dispatch(saveNoteToDatabase(noteId, userId));
+            } else {
+                //saveNotesToLocalStorage(notes);
+                dispatch(saveNotesToStore(noteId));
+            }
+        }
+    }
 
 /*
 export const initUser = (accessToken, organisationUUID, userUUID, api) => {

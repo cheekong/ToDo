@@ -14,16 +14,16 @@ class TodoList extends Component {
     }
 
     
-    handleViewNote(noteID){
+    handleViewNote(noteId){
         this.props.history.push({
             pathname: '/note',
             search: '?query=abc',
-            state: {noteID: noteID}
+            state: {noteId: noteId}
         })
     }
 
-    handleDeleteNote(noteID){
-        api.deleteNote(noteID)
+    handleDeleteNote(noteId){
+        api.deleteNote(noteId)
         .then(res => {
             console.log('del res',res)
             this.getNotes();
@@ -34,13 +34,11 @@ class TodoList extends Component {
     }
 
     buildNotes(){
-console.log('notes', this.state.notes);
         let noteKeys = Object.keys(this.state.notes);
         let notes = [];
         for(let key of noteKeys){
 
-            let noteItem = this.state.notes[key].note;
-console.log('noteItem',noteItem);
+            let noteItem = this.state.notes[key];
             let completeCount = 0;
             if(noteItem.items.completed){
                 completeCount = noteItem.items.completed.length;
@@ -52,7 +50,7 @@ console.log('noteItem',noteItem);
             }
             notes.push(
                 <div className='note-items' key={key}>
-                    <h3>{this.state.notes[key].note.title}</h3>
+                    <h3>{this.state.notes[key].title}</h3>
                     <section className=''>
                         <ul>
                             
@@ -81,7 +79,6 @@ console.log('noteItem',noteItem);
         if(this.props.login){
             api.getNotes(userId)
             .then(res => {
-                console.log('res',res);
                 this.setState({
                     notes: res,
                     loading: false
@@ -91,7 +88,6 @@ console.log('noteItem',noteItem);
                 console.log('err',err);
             });
         } else {
-            console.log(this.props.notes);
             this.setState({
                 notes: this.props.notes
             })
@@ -133,7 +129,7 @@ const mapStateToProps = state => {
   }
 
 const mapDispatchToProps = dispatch => ({
-    saveNotes: (notes) => dispatch(actionCreators.saveNotes(notes)),
+    saveNotes: (notes) => dispatch(actionCreators.updateNote(notes)),
     toggleLoading: () => dispatch(actionCreators.toggleLoading())
 })
 

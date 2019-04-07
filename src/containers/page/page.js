@@ -71,11 +71,9 @@ class Page extends Component {
     }
 
     render(){
-console.log('this.state.noticeBar.show',this.state.noticeBar.show);
-console.log('this.state.dialog',this.state.dialog);
         let navItems = (
             <nav>
-                {this.props.isLogin ? <Link className='navItem' to="/new">New Note</Link> : null}
+                {this.props.isLogin ? <Link className='navItem' to="/note">New Note</Link> : null}
                 {!this.props.isLogin ? <Link className='navItem' to="/login">Signup</Link> : null}
                 {!this.props.isLogin ? <Link className='navItem' to="/login">Login</Link> : null}
                 {this.props.isLogin ? <Link className='navItem' to="/list">list</Link> : null}
@@ -129,13 +127,15 @@ console.log('this.state.dialog',this.state.dialog);
                                     toggleDialog={(showDialog, message, button1Function, button2Function)=> this.toggleDialog(showDialog, message, button1Function, button2Function)}
                                     />}
                             />
+                            {/*}
                             <Route 
-                                exact path="/new"
+                                exact path="/note"
                                 render={(props) => <NewNote {...props} 
                                     toggleNoticeBar={(success, message) => this.toggleNoticeBar(success, message)} 
                                     toggleDialog={(showDialog, message, button1Function, button2Function)=> this.toggleDialog(showDialog, message, button1Function, button2Function)}
                                     />}
                             />
+                            */}
                             <Route 
                                 exact path="/note"
                                 render={(props) => <ToDo {...props} 
@@ -162,7 +162,6 @@ const mapStateToProps = state => {
   }
 
 const mapDispatchToProps = dispatch => ({
-    saveNotes: (notes) => dispatch(actionCreators.saveNotes(notes)),
     toggleLoading: () => dispatch(actionCreators.toggleLoading())
 })
 
