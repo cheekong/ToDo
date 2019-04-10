@@ -10,10 +10,10 @@ class TodoList extends Component {
     state = {
        notes: null,
        loading: true,
-       message: ''
+       message: '',
+       action: ''
     }
 
-    
     handleViewNote(noteId){
         this.props.history.push({
             pathname: '/note',
@@ -22,15 +22,13 @@ class TodoList extends Component {
         })
     }
 
-    handleDeleteNote(noteId){
-        api.deleteNote(noteId)
-        .then(res => {
-            console.log('del res',res)
-            this.getNotes();
-        })
-        .catch( err => {
-            console.log('del err',err)
-        })
+    handleDeleteNote(event, noteId, isLogin, userId){
+        event.preventDefault();
+        this.props.toggleLoading();
+        this.props.deleteNote(noteId, isLogin, userId);
+        this.setState({
+            action: 'delete'
+        });
     }
 
     buildNotes(){
@@ -61,7 +59,7 @@ class TodoList extends Component {
                             <i  className="far fa-edit todo-list-actions__button todo-list-actions__button--edit" 
                                 onClick={() => this.handleViewNote(key)}/>
                             <i  className="far fa-trash-alt todo-list-actions__button todo-list-actions__button--delete" 
-                                onClick={() => this.handleDeleteNote(key)}/>
+                                onClick={(event) => this.handleDeleteNote(event, key, this.props.isLogin, this.props.userId)}/>
                         </section>
                     </section>
                 </div>
@@ -76,7 +74,7 @@ class TodoList extends Component {
     }
 
     getNotes(userId){
-        if(this.props.login){
+        if(this.props.isLogin){
             api.getNotes(userId)
             .then(res => {
                 this.setState({
@@ -95,7 +93,14 @@ class TodoList extends Component {
     }
 
     componentDidUpdate(prevProps, prevState){
-
+console.log('prevProps', prevProps.loading, this.props.loading, prevState, this.state);
+        if(!this.props.loading && prevProps.loading && this.state.action === 'delete'){
+            console.log('test');
+            this.getNotes(this.props.userId);
+            this.setState({
+                action: ''
+            });
+        }
     }
 
     componentDidMount() {
@@ -122,7 +127,7 @@ class TodoList extends Component {
 const mapStateToProps = state => {
     return {
       notes: state.user.notes,
-      login: state.user.login,
+      isLogin: state.user.login,
       loading: state.user.loading,
       userId: state.user.info.userId
     }
@@ -130,6 +135,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
     saveNotes: (notes) => dispatch(actionCreators.updateNote(notes)),
+    deleteNote: (noteId, isLogin, userId) => dispatch(actionCreators.deleteNote(noteId, isLogin, userId)),
     toggleLoading: () => dispatch(actionCreators.toggleLoading())
 })
 

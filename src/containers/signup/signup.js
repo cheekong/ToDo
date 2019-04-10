@@ -41,6 +41,10 @@ class Signup extends Component {
         this.setState(newState);
     }
 
+    handleRedirect(){
+        this.props.history.push('/login');
+    }
+
     handleSubmit(){
         let isValidEmail = this.validateEmail(this.state.email);
         let isValidPassword = this.validatePassword(this.state.password, this.state.confirmPassword);
@@ -77,7 +81,7 @@ console.log('err',err);
 
         const buttons = [
             <input className='cta--forward' type='button' value="Sign me up" onClick={() => this.handleSubmit()}/>,
-            <input className='cta--forward' type='button' value="Already have an account" onClick={() => this.handleSubmit()}/>
+            <input className='cta--forward' type='button' value="Already have an account" onClick={() => this.handleRedirect()}/>
         ]
         return (
             <div id='signup'>

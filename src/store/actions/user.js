@@ -94,7 +94,7 @@ const updateNoteToDatabase = (note, userId, noteId) => {
         api.updateNote(note, userId, noteId)
         .then(res => {
     console.log('updateNoteToDatabase res',res)
-            dispatch(toggleLoading('test'));
+            dispatch(toggleLoading());
         })
         .catch(err => {
             console.error('error when submit');
@@ -115,10 +115,6 @@ export const saveNewNote = (notes, isLogin, userId) => {
 }
 
 export const updateNote = (note, isLogin, userId, noteId) => {
-    console.log('updateNote note', note)
-    console.log('updateNote isLogin', isLogin)
-    console.log('updateNote userId', userId)
-console.log('updateNote noteId', noteId)
     return( dispatch, getState) => {
         if(isLogin){
             dispatch(updateNoteToDatabase(note, userId, noteId));
@@ -131,16 +127,35 @@ console.log('updateNote noteId', noteId)
 
 //TODO:
 export const deleteNote = (noteId, isLogin, userId) => {
-    alert('actions saveNotes');
+console.log('args', noteId, isLogin, userId);
+    alert('actions deleteNote');
         return( dispatch, getState) => {
             if(isLogin){
-                dispatch(saveNoteToDatabase(noteId, userId));
+                dispatch(deleteNoteInDatabase(userId, noteId));
             } else {
                 //saveNotesToLocalStorage(notes);
-                dispatch(saveNotesToStore(noteId));
+                dispatch(deleteNoteInLocalStorage(noteId));
             }
         }
+}
+
+const deleteNoteInDatabase = (userId, noteId) => {
+    return ( dispatch, getState) => {
+        api.deleteNote(userId, noteId)
+        .then(res=> {
+            dispatch(toggleLoading('delete'));
+            alert('res')
+        })
+        .catch(err => {
+            console.error('err - deleteNoteInDatabase', err)
+        })
     }
+}
+
+//TODO:
+const deleteNoteInLocalStorage = (noteId) => {
+
+}
 
 /*
 export const initUser = (accessToken, organisationUUID, userUUID, api) => {

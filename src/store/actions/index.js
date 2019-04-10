@@ -4,5 +4,6 @@ export {
     logout,
     toggleLoading,
     updateNote,
-    saveNewNote
+    saveNewNote,
+    deleteNote
 } from './user.js';

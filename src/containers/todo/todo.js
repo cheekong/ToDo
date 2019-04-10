@@ -28,7 +28,8 @@ class Todo extends Component {
         titleChange: true,
         loading: true,
         form: null,
-        noteId: null
+        noteId: null,
+        action: ''
     }
 
     focusTextInput() {
@@ -53,6 +54,9 @@ class Todo extends Component {
                 this.state.noteId
             );
         }
+        this.setState({
+            action: 'save'
+        })
         
     }
 
@@ -129,6 +133,15 @@ class Todo extends Component {
         this.setState({note: noteCopy});
     }
 
+    handleDelete(event, noteId, isLogin, userId) {
+        event.preventDefault();
+        this.props.toggleLoading();
+        this.props.deleteNote(noteId, isLogin, userId);
+        this.setState({
+            action: 'delete'
+        })
+    }
+
     buildForm() {
         let title = null;
         if(!this.state.titleChange){
@@ -158,7 +171,7 @@ class Todo extends Component {
             <button className='todo-actions todo-actions__cancel' onClick={(event) => this.handleCancel(event)}>
                 <i className="fas fa-times todo-actions-icon" />
             </button>,
-            <button className='todo-actions todo-actions__cancel'>
+            <button className='todo-actions todo-actions__cancel' onClick={(event) => this.handleDelete(event, this.state.noteId, this.props.isLogin, this.props.userId)}>
                 <i  className="far fa-trash-alt"/>
             </button>]}
             >
@@ -179,9 +192,9 @@ class Todo extends Component {
         }
 
         if(!this.props.loading && prevProps.loading){
-            this.props.toggleNoticeBar('success', this.state.note.title + ' Saved');
+            this.props.toggleNoticeBar('success', this.state.note.title + ' ' + this.state.action);
         }
-console.log('this.state.noteId', this.state.noteId);
+console.log('this.state', this.state);
     }
 
     componentDidMount() {
@@ -233,6 +246,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
     saveNewNote: (notes, isLogin, userId) => dispatch(actionCreators.saveNewNote(notes, isLogin, userId)),
     updateNote: (notes, isLogin, userId, noteId) => dispatch(actionCreators.updateNote(notes, isLogin, userId, noteId)),
+    deleteNote: (noteId, isLogin, userId) => dispatch(actionCreators.deleteNote(noteId, isLogin, userId)),
     toggleLoading: () => dispatch(actionCreators.toggleLoading())
 })
 

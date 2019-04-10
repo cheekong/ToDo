@@ -37,10 +37,10 @@ const signUp = (state, action) => {
 }
 
 const logout = (state, action) => {
+console.log('logout');
+console.log('state', state);
     return {
-        ...state,
-        loaded: true,
-        userDetails: {...action.userDetails}
+        ...initialState
     };
 }
 
@@ -88,7 +88,7 @@ const reducer = (state = initialState, action) => {
         case actionTypes.LOGOUT: return logout(state, action);
         case actionTypes.SAVE_NOTES: return saveNotes(state, action);
         case actionTypes.TOGGLE_LOADING: return toggleLoading(state, action);
-        case actionTypes.SET_STATUS_LOADING: return setStatusAndLoading(state,action);
+        case actionTypes.SET_STATUS_LOADING: return setStatusAndLoading(state, action);
         default: return state;
     }
 }

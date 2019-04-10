@@ -4,8 +4,6 @@ import { connect } from 'react-redux'
 import Form from '../../components/form/form';
 import Input from '../../components/input/Input';
 import * as actionCreators from '../../store/actions/index';
-import * as api from '../../utilities/api';
-import './login.css';
 
 class Login extends Component {
     state = {
