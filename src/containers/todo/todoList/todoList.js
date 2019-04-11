@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 
 import Form from '../../../components/form/form';
+import NoteList from '../../../components/Note/NoteList/NoteList';
 import * as actionCreators from '../../../store/actions/index';
 import * as api from '../../../utilities/api';
-import './todoList.css';
 
 class TodoList extends Component {
     state = {
@@ -14,7 +14,7 @@ class TodoList extends Component {
        action: ''
     }
 
-    handleViewNote(noteId){
+    handleViewNote = (noteId) => {
         this.props.history.push({
             pathname: '/note',
             search: '?query=abc',
@@ -22,7 +22,7 @@ class TodoList extends Component {
         })
     }
 
-    handleDeleteNote(event, noteId, isLogin, userId){
+    handleDeleteNote = (event, noteId, isLogin, userId) => {
         event.preventDefault();
         this.props.toggleLoading();
         this.props.deleteNote(noteId, isLogin, userId);
@@ -110,7 +110,8 @@ console.log('prevProps', prevProps.loading, this.props.loading, prevState, this.
     render(){
         let content = <div><i class="fas fa-spinner fa-spin"/></div>;
         if(!this.state.loading && this.state.notes){
-            content = this.buildNotes();
+            //content = this.buildNotes();
+            content = <NoteList data={this.state.notes} handleView={this.handleViewNote} handleDelete={this.handleDeleteNote}/>
         } else if(!this.state.loading && this.state.notes === null) {
             content = (<h1>You have no notes! :(</h1>);
         }
