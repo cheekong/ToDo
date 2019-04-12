@@ -3,10 +3,11 @@ import { connect } from 'react-redux';
 
 import Form from '../../components/form/form';
 import Input from '../../components/input/Input';
+import Button from '../../components/Button/Button';
 import NoteContainer from '../../components/Note/NoteContainer/NoteContainer';
 import * as actionCreators from '../../store/actions/index';
 import * as api from '../../utilities/api';
-import './todo.css';
+//import './todo.css';
 
 class Todo extends Component {
     state = {
@@ -36,7 +37,7 @@ class Todo extends Component {
         this.state.textInput.current.focus();
     }
 
-    handleSubmit(event){
+    handleSubmit = (event) => {
         event.preventDefault();
         this.props.toggleLoading();
         if(this.state.noteId === null){
@@ -60,12 +61,12 @@ class Todo extends Component {
         
     }
 
-    handleCancel(event) {
+    handleCancel = (event) => {
         event.preventDefault();
         this.props.history.push('/list');
     }
 
-    pendingItemHandleCheckBox(idx) {
+    pendingItemHandleCheckBox = (idx) =>  {
         let noteCopy = JSON.parse(JSON.stringify(this.state.note));
         noteCopy.items.completed.push({...noteCopy.items.pending[idx]});
         noteCopy.items.pending.splice(idx, 1);
@@ -83,14 +84,14 @@ class Todo extends Component {
 
     
 
-    completedHandleOnClick(idx){
+    completedHandleOnClick = (idx) =>{
         let noteCopy = JSON.parse(JSON.stringify(this.state.note));
         noteCopy.items.pending.push({...noteCopy.items.completed[idx]});
         noteCopy.items.completed.splice(idx, 1)
         this.setState({note: noteCopy});
     }
 
-    pendingItemOnChange(id, event) {
+    pendingItemOnChange = (id, event) => {
         event.preventDefault();
         let noteCopy = JSON.parse(JSON.stringify(this.state.note));
         if(event.key === 'Enter'){
@@ -105,7 +106,7 @@ class Todo extends Component {
         this.setState({note: noteCopy});
     }
 
-    pendingItemOnKeyPress(id, event) {
+    pendingItemOnKeyPress = (id, event) => {
         event.preventDefault();
         let noteCopy = JSON.parse(JSON.stringify(this.state.note));
         if(event.key === 'Enter'){
@@ -120,11 +121,11 @@ class Todo extends Component {
         this.setState({note: noteCopy});
     }
 
-    changeTitle() {
+    changeTitle = () => {
         this.setState({titleChange: !this.state.titleChange});
     }
 
-    handleTitleKeyPress(event) {
+    handleTitleKeyPress = (event) => {
         if(event.key === 'Enter'){
             this.setState({titleChange: false});
         }
@@ -133,7 +134,7 @@ class Todo extends Component {
         this.setState({note: noteCopy});
     }
 
-    handleDelete(event, noteId, isLogin, userId) {
+    handleDelete = (event, noteId, isLogin, userId) => {
         event.preventDefault();
         this.props.toggleLoading();
         this.props.deleteNote(noteId, isLogin, userId);
@@ -142,7 +143,7 @@ class Todo extends Component {
         })
     }
 
-    buildForm() {
+    buildForm = () => {
         let title = null;
         if(!this.state.titleChange){
             title = (
@@ -173,7 +174,12 @@ class Todo extends Component {
             </button>,
             <button className='todo-actions todo-actions__cancel' onClick={(event) => this.handleDelete(event, this.state.noteId, this.props.isLogin, this.props.userId)}>
                 <i  className="far fa-trash-alt"/>
-            </button>]}
+            </button>,
+            <Button primary={true} value='Save' onClick={this.handleSubmit}/>,
+            <Button secondary={true} value='Cancel' onClick={this.handleCancel}/>,
+            <Button secondary={true} value='Delete' onClick={this.handleDelete}/>
+        
+        ]}
             >
                 <NoteContainer 
                     data={this.state.note.items}
@@ -194,7 +200,6 @@ class Todo extends Component {
         if(!this.props.loading && prevProps.loading){
             this.props.toggleNoticeBar('success', this.state.note.title + ' ' + this.state.action);
         }
-console.log('this.state', this.state);
     }
 
     componentDidMount() {

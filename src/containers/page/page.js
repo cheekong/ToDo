@@ -40,7 +40,6 @@ class Page extends Component {
             button1Function: button1Function,
             button2Function: button2Function
         };
-    console.log('test2');
         this.setState({dialog: newDialogState})
     }
 
@@ -57,7 +56,6 @@ class Page extends Component {
     handleLogout(event) {
         event.preventDefault();
         this.props.logout();
-        console.log('this.props.history', this.props.history)
     }
 
     handleSignup(event) {
@@ -69,9 +67,6 @@ class Page extends Component {
     }
 
     toggleNoticeBar(success, message){
-        console.log('args', arguments);
-        console.log('test', this.state);
-        console.log(' !this.state.show', !this.state.show);
         JSON.parse(JSON.stringify(this.state.noticeBar))
         let newState = JSON.parse(JSON.stringify(this.state));
         newState.noticeBar = {
@@ -87,7 +82,6 @@ class Page extends Component {
     }
 
     render(){
-console.log('test', this.props.history);
         let redirect = null,
             centerNavigationItems =  [
                 {displayLabel: 'New Note', path: '/note'},

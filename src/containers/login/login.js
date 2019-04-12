@@ -21,7 +21,6 @@ class Login extends Component {
     }
 
     componentDidUpdate(prevProps){
-        console.log(prevProps);
         if(!prevProps.isLogin && this.props.isLogin){
             this.props.history.push('/note');
         }

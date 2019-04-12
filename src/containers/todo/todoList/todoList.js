@@ -22,7 +22,7 @@ class TodoList extends Component {
         })
     }
 
-    handleDeleteNote = (event, noteId, isLogin, userId) => {
+    handleDeleteNote = (event, noteId, isLogin=this.props.isLogin, userId=this.props.userId) => {
         event.preventDefault();
         this.props.toggleLoading();
         this.props.deleteNote(noteId, isLogin, userId);
@@ -93,9 +93,10 @@ class TodoList extends Component {
     }
 
     componentDidUpdate(prevProps, prevState){
-console.log('prevProps', prevProps.loading, this.props.loading, prevState, this.state);
-        if(!this.props.loading && prevProps.loading && this.state.action === 'delete'){
-            console.log('test');
+        if(!this.props.loading && 
+            prevProps.loading && 
+            this.state.action === 'delete'
+        ){
             this.getNotes(this.props.userId);
             this.setState({
                 action: ''
@@ -111,7 +112,12 @@ console.log('prevProps', prevProps.loading, this.props.loading, prevState, this.
         let content = <div><i class="fas fa-spinner fa-spin"/></div>;
         if(!this.state.loading && this.state.notes){
             //content = this.buildNotes();
-            content = <NoteList data={this.state.notes} handleView={this.handleViewNote} handleDelete={this.handleDeleteNote}/>
+            content = <NoteList 
+                data={this.state.notes} 
+                handleView={this.handleViewNote.bind(this.props.isLogin)} 
+                handleDelete={this.handleDeleteNote}
+                isLogin={this.props.isLogin}
+            />
         } else if(!this.state.loading && this.state.notes === null) {
             content = (<h1>You have no notes! :(</h1>);
         }
@@ -136,7 +142,13 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
     saveNotes: (notes) => dispatch(actionCreators.updateNote(notes)),
-    deleteNote: (noteId, isLogin, userId) => dispatch(actionCreators.deleteNote(noteId, isLogin, userId)),
+    deleteNote: (noteId, isLogin, userId) => dispatch(
+        actionCreators.deleteNote(
+            noteId, 
+            isLogin, 
+            userId
+        )
+    ),
     toggleLoading: () => dispatch(actionCreators.toggleLoading())
 })
 

@@ -14,7 +14,6 @@ const initialState = {
 }
 
 const signIn = (state, action) => {
-console.log('action', action);
     return {
         ...state,
         loaded: true,
@@ -37,8 +36,6 @@ const signUp = (state, action) => {
 }
 
 const logout = (state, action) => {
-console.log('logout');
-console.log('state', state);
     return {
         ...initialState
     };
@@ -55,10 +52,8 @@ const saveNotes = (state, action) => {
         localStorage.setItem('notes', jsonNotes);
     }
 
-console.log('action',action);
     let newStateNotes = [JSON.parse(JSON.stringify(action.notes))];
     newStateNotes.push(action.notes);
-console.log('newStateNotes',newStateNotes);
     return {
         ...state,
         notes: newStateNotes,

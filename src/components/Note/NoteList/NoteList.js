@@ -2,7 +2,7 @@ import React from 'react';
 import NoteListItem from '../NoteListItem/NoteListItem';
 import './NoteList.css';
 
-const NoteList = ({data, handleView, handleDelete}) => {
+const NoteList = ({data, handleView, handleDelete, isLogin}) => {
     const keys = Object.keys(data);
     let noteListItems = [];
 
@@ -19,6 +19,7 @@ const NoteList = ({data, handleView, handleDelete}) => {
                 pendingItemCount={pendingItemCount} 
                 handleView={handleView}
                 handleDelete={handleDelete}
+                isLogin={isLogin}
             />
         )
     }
