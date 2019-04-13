@@ -165,21 +165,13 @@ class Todo extends Component {
         }
         
         return (
-            <Form title={title}
-                buttons={[<button className='todo-actions todo-actions__submit' onClick={(event) => this.handleSubmit(event)}>
-                <i className="fas fa-check todo-actions-icon" />
-            </button>,
-            <button className='todo-actions todo-actions__cancel' onClick={(event) => this.handleCancel(event)}>
-                <i className="fas fa-times todo-actions-icon" />
-            </button>,
-            <button className='todo-actions todo-actions__cancel' onClick={(event) => this.handleDelete(event, this.state.noteId, this.props.isLogin, this.props.userId)}>
-                <i  className="far fa-trash-alt"/>
-            </button>,
-            <Button primary={true} value='Save' onClick={this.handleSubmit}/>,
-            <Button secondary={true} value='Cancel' onClick={this.handleCancel}/>,
-            <Button secondary={true} value='Delete' onClick={this.handleDelete}/>
-        
-        ]}
+            <Form 
+                title={title}
+                buttons={[
+                    <Button primary={true} value='Save' onClick={this.handleSubmit}/>,
+                    <Button value='Cancel' onClick={this.handleCancel}/>,
+                    <Button secondary={true} value='Delete' onClick={this.handleDelete}/>
+                ]}
             >
                 <NoteContainer 
                     data={this.state.note.items}

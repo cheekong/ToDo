@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 
 import Form from '../../components/form/form';
 import Input from '../../components/input/Input';
+import Button from '../../components/Button/Button';
 import * as actionCreators from '../../store/actions/index';
 
 class Login extends Component {
@@ -31,7 +32,7 @@ class Login extends Component {
             <div id='login'>
                 <Form
                     title="Hi again!"
-                    buttons={(<input className='cta--forward'type='button' value="Signin" onClick={(event)=>this.handleSubmit(event)}/>)}
+                    buttons={(<Button primary={true} type='button' value="Login" onClick={(event)=>this.handleSubmit(event)}/>)}
                 >
                     <Input 
                         type='Username' 

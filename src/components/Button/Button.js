@@ -3,13 +3,13 @@ import './Button.css';
 
 const Button = ( {className='', onClick=null, ...props} ) => {
 
-    let buttonClassName = [className];
+    let buttonClassName = ['app-button'];
     if(props.primary){
-        buttonClassName.push('primary')
+        buttonClassName.push('app-button-primary');
     }
 
     if(props.secondary){
-        buttonClassName.push('secondary')
+        buttonClassName.push('app-button-secondary');
     }
 
     return (

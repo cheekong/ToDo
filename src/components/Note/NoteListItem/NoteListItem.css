@@ -18,9 +18,12 @@
 .note-list-item-actions {
     color: white;
     font-size: 20px;
-    
-    
     margin-bottom: 20px;
+}
+
+.note-list-item-actions * {
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .note-list-item-actions__button {

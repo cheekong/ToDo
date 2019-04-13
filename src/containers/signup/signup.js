@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import Form from '../../components/form/form';
 import Input from '../../components/input/Input';
+import Button from '../../components/Button/Button';
 import * as api from '../../utilities/api';
 
 class Signup extends Component {
@@ -67,8 +68,8 @@ console.log('err',err);
 
     render(){
         const buttons = [
-            <input className='cta--forward' type='button' value="Sign me up" onClick={() => this.handleSubmit()}/>,
-            <input className='cta--forward' type='button' value="Already have an account" onClick={() => this.handleRedirect()}/>
+            <Button primary={true} type='button' value="Sign me up" onClick={() => this.handleSubmit()}/>,
+            <Button  primary={true} type='button' value="Login" onClick={() => this.handleRedirect()}/>
         ]
         return (
             <Form

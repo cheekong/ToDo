@@ -35,11 +35,13 @@
 }
 
 .todo-actions__submit {
-    background-color: green;height:100px;
+    background-color: green;
+    height:100px;
 }
 
 .todo-actions__cancel {
-    background-color: red;height:100px;
+    background-color: red;
+    height:100px;
 }
 
 .completedItems {

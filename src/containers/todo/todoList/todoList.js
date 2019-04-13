@@ -31,48 +31,6 @@ class TodoList extends Component {
         });
     }
 
-    buildNotes(){
-        let noteKeys = Object.keys(this.state.notes);
-        let notes = [];
-        for(let key of noteKeys){
-
-            let noteItem = this.state.notes[key];
-            let completeCount = 0;
-            if(noteItem.items.completed){
-                completeCount = noteItem.items.completed.length;
-            }
-
-            let pendingCount = 0;
-            if(noteItem.items.pending){
-                pendingCount = noteItem.items.pending.length;
-            }
-            notes.push(
-                <div className='note-items' key={key}>
-                    <h3>{this.state.notes[key].title}</h3>
-                    <section className=''>
-                        <ul>
-                            
-                            <li>Tasks Completed: {completeCount}</li>
-                            <li>Tasks Pending: {pendingCount}</li>
-                        </ul>
-                        <section className='todo-list-actions'>
-                            <i  className="far fa-edit todo-list-actions__button todo-list-actions__button--edit" 
-                                onClick={() => this.handleViewNote(key)}/>
-                            <i  className="far fa-trash-alt todo-list-actions__button todo-list-actions__button--delete" 
-                                onClick={(event) => this.handleDeleteNote(event, key, this.props.isLogin, this.props.userId)}/>
-                        </section>
-                    </section>
-                </div>
-            )
-        }
-
-        return (
-            <section id='notes-lists'>
-                {notes}
-            </section>
-        )
-    }
-
     getNotes(userId){
         if(this.props.isLogin){
             api.getNotes(userId)
@@ -111,7 +69,6 @@ class TodoList extends Component {
     render(){
         let content = <div><i class="fas fa-spinner fa-spin"/></div>;
         if(!this.state.loading && this.state.notes){
-            //content = this.buildNotes();
             content = <NoteList 
                 data={this.state.notes} 
                 handleView={this.handleViewNote.bind(this.props.isLogin)} 

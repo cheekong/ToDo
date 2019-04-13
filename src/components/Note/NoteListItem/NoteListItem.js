@@ -1,4 +1,5 @@
 import React from 'react';
+import Button from '../../../components/Button/Button';
 import './NoteListItem.css';
 
 
@@ -13,10 +14,8 @@ const NoteListItem = ( {id, title, completedItemCount, pendingItemCount, handleV
                     <li>Tasks Pending: {pendingItemCount}</li>
                 </ul>
                 <section className='note-list-item-actions'>
-                    <i  className="far fa-edit note-list-item-actions__button note-list-item-actions__button--edit" 
-                        onClick={() => handleView(id)}/>
-                    <i  className="far fa-trash-alt note-list-item-actions__button note-list-item-actions__button--delete" 
-                        onClick={(event) => handleDelete(event, id)}/>
+                    <Button primary={true} value='view' onClick={() => handleView(id)}/>
+                    <Button secondary={true} value='delete' onClick={(e) => handleDelete(e, id)}/>
                 </section>
             </section>
         </div>
