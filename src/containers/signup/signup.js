@@ -68,8 +68,8 @@ console.log('err',err);
 
     render(){
         const buttons = [
-            <Button primary={true} type='button' value="Sign me up" onClick={() => this.handleSubmit()}/>,
-            <Button  primary={true} type='button' value="Login" onClick={() => this.handleRedirect()}/>
+            <Button primary={true} type='button' label="Sign me up" onClick={() => this.handleSubmit()}/>,
+            <Button  primary={true} type='button' label="Login" onClick={() => this.handleRedirect()}/>
         ]
         return (
             <Form

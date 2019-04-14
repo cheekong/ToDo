@@ -32,7 +32,7 @@ class Login extends Component {
             <div id='login'>
                 <Form
                     title="Hi again!"
-                    buttons={(<Button primary={true} type='button' value="Login" onClick={(event)=>this.handleSubmit(event)}/>)}
+                    buttons={(<Button primary={true} type='button' label="Login" onClick={(event)=>this.handleSubmit(event)}/>)}
                 >
                     <Input 
                         type='Username' 

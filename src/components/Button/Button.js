@@ -1,24 +1,55 @@
 import React from 'react';
 import './Button.css';
 
-const Button = ( {className='', onClick=null, ...props} ) => {
+const getClasses = (primary, secondary, buttonStyle) => {
+    const defaultClass = 'app-button';
+    const defaultStyle = 'app-button-default-style';
+    const outlineStyle = 'app-button-outline-style';
+    const primaryStyle = 'app-button-primary';
+    const secondaryStyle = 'app-button-secondary';
 
-    let buttonClassName = ['app-button'];
-    if(props.primary){
-        buttonClassName.push('app-button-primary');
+    let buttonClass = [defaultClass];
+
+    if(buttonStyle === 'default'){
+        buttonClass.push(defaultStyle);
+    } else if(buttonStyle === 'outline'){
+        buttonClass.push(outlineStyle);
     }
 
-    if(props.secondary){
-        buttonClassName.push('app-button-secondary');
+    if(primary) {
+        buttonClass.push(primaryStyle);
+    } else if(secondary) {
+        buttonClass.push(secondaryStyle);
     }
+
+    return buttonClass;
+}
+
+const getWidth = (width) => width;
+
+const Button = ({
+    className='', 
+    onClick = null, 
+    primary, 
+    secondary,
+    buttonStyle = 'default',
+    width = null,
+    ...props
+}) => {
+
+    let buttonClassName = getClasses(primary, secondary, buttonStyle)
+    let widthInlineStyle = getWidth(width);
 
     return (
-        <input
+        <button
             className={buttonClassName.join(' ')}
-            type='button'
-            value={props.value}
-            onClick={(e) => onClick(e)}
-        />
+            style={{width: widthInlineStyle}}
+            onClick={(e) => {
+                e.preventDefault();
+                onClick(e)}}
+        >
+            {props.label}
+        </button>
     )
 }
 

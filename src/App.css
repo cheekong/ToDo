@@ -32,11 +32,15 @@
 }
 
 body {
-  background-color: rgb(238, 238, 238);
+  background-color:white;
 }
 
 h1 {
-  
+  font-size:30px; 
+}
+
+h2 {
+  font-size: 20px;
 }
 
 form {

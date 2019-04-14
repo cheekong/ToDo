@@ -14,8 +14,8 @@ const NoteListItem = ( {id, title, completedItemCount, pendingItemCount, handleV
                     <li>Tasks Pending: {pendingItemCount}</li>
                 </ul>
                 <section className='note-list-item-actions'>
-                    <Button primary={true} value='view' onClick={() => handleView(id)}/>
-                    <Button secondary={true} value='delete' onClick={(e) => handleDelete(e, id)}/>
+                    <Button primary={true} label='view' onClick={() => handleView(id)}/>
+                    <Button secondary={true} label='delete' onClick={(e) => handleDelete(e, id)}/>
                 </section>
             </section>
         </div>

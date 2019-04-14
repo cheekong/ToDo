@@ -88,12 +88,12 @@ class Page extends Component {
                 {displayLabel: 'List', path: '/list'}
             ],
             //leftNavigationItems = [{displayLabel: 'Logout', path: '/logout'}];
-            leftNavigationItems = [<ToolbarButton value='Logout' onClick={(e) => this.handleLogout(e)} />];
+            rightNavigationItems = [<ToolbarButton label='Logout' onClick={(e) => this.handleLogout(e)} />];
 
         if(!this.props.isLogin){
             redirect = <Redirect to='/' />;
             centerNavigationItems =  [];
-            leftNavigationItems = <Navigation 
+            rightNavigationItems = <Navigation 
                 dataSource={
                     [
                         {displayLabel: 'Signup', path: '/signup'},
@@ -125,7 +125,7 @@ class Page extends Component {
                         />
                         <Toolbar
                             center={<Navigation dataSource={centerNavigationItems}/>}
-                            right={leftNavigationItems}
+                            right={rightNavigationItems}
                         />
                         
                         <hr />

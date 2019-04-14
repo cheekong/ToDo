@@ -1,7 +1,7 @@
 .note-list-item {
     border: 1px solid lightgray;
     border-radius: 10px;
-    width: 50%;
+    width: 100%;
     max-width: 300px;
     margin: 10px auto 10px auto;
     background-color: white;

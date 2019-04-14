@@ -143,9 +143,9 @@ class Todo extends Component {
         })
     }
 
-    buildForm = () => {
+    buildForm = (titleChange) => {
         let title = null;
-        if(!this.state.titleChange){
+        if(!titleChange){
             title = (
                 <h1 onClick={()=>this.changeTitle()}>
                     {this.state.note.title}
@@ -166,11 +166,11 @@ class Todo extends Component {
         
         return (
             <Form 
-                title={title}
+                customTitle={title}
                 buttons={[
-                    <Button primary={true} value='Save' onClick={this.handleSubmit}/>,
-                    <Button value='Cancel' onClick={this.handleCancel}/>,
-                    <Button secondary={true} value='Delete' onClick={this.handleDelete}/>
+                    <Button primary={true} label='Save' onClick={this.handleSubmit}/>,
+                    <Button label='Cancel' onClick={this.handleCancel}/>,
+                    <Button secondary={true} label='Delete' onClick={this.handleDelete}/>
                 ]}
             >
                 <NoteContainer 
@@ -209,7 +209,8 @@ class Todo extends Component {
                 this.setState({
                     note: res,
                     noteId: noteId,
-                    loading: false
+                    loading: false,
+                    titleChange: false
                 });
             })
             .catch(err => {
@@ -226,7 +227,7 @@ class Todo extends Component {
     render(){
         let content = (<i class="fas fa-spinner fa-spin"/>);
         if(!this.state.loading){
-            content = this.buildForm();
+            content = this.buildForm(this.state.titleChange);
         }
         return content;
     }
