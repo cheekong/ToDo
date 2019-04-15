@@ -1,10 +1,12 @@
 .note-list-item {
     border: 1px solid lightgray;
-    border-radius: 10px;
+    border-radius: 0;
     width: 100%;
-    max-width: 300px;
-    margin: 10px auto 10px auto;
+    max-width: 500px;
+    margin: 0 auto 50px auto;
     background-color: white;
+    display: flex;
+    flex-direction: column;
 }
 
 .note-list-item ul{
@@ -19,11 +21,14 @@
     color: white;
     font-size: 20px;
     margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
 }
 
 .note-list-item-actions * {
     margin-top: 5px;
     margin-bottom: 5px;
+    justify-content: center;
 }
 
 .note-list-item-actions__button {
@@ -31,6 +36,11 @@
     margin-left: 10px;
     margin-right: 10px;
     border-radius: 10px;
+}
+
+.note-list-actions-button{
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .note-list-item-actions__button:hover {

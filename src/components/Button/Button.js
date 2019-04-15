@@ -1,14 +1,17 @@
 import React from 'react';
 import './Button.css';
 
-const getClasses = (primary, secondary, buttonStyle) => {
+const getClasses = (className, primary, secondary, buttonStyle) => {
     const defaultClass = 'app-button';
     const defaultStyle = 'app-button-default-style';
     const outlineStyle = 'app-button-outline-style';
     const primaryStyle = 'app-button-primary';
     const secondaryStyle = 'app-button-secondary';
 
-    let buttonClass = [defaultClass];
+    let buttonClass = [
+        className, 
+        defaultClass
+    ];
 
     if(buttonStyle === 'default'){
         buttonClass.push(defaultStyle);
@@ -37,7 +40,7 @@ const Button = ({
     ...props
 }) => {
 
-    let buttonClassName = getClasses(primary, secondary, buttonStyle)
+    let buttonClassName = getClasses(className, primary, secondary, buttonStyle)
     let widthInlineStyle = getWidth(width);
 
     return (

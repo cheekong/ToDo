@@ -1,0 +1,11 @@
+.navigation-item {
+    border: 0;
+    text-decoration: none;
+    color: green;
+    font-size: 20px;
+    margin: 20px 20px;
+}
+
+.navigation-item:hover {
+    text-decoration: underline;
+}

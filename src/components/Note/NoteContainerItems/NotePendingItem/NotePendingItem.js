@@ -7,12 +7,14 @@ const NotePendingItem = ({className='', ...props}) => {
     return (
         <div className={componentClassName.join()}>
             <input 
+                data-lpignore='true'
                 type='checkbox' 
                 value='done'
                 checked={false} 
                 onChange={props.handleCheckBox}
             />
             <input 
+                data-lpignore='true'
                 type='text' 
                 value={props.value} 
                 onChange={props.onChange}

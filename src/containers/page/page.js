@@ -12,8 +12,7 @@ import Dialog from '../../components/dialog/dialog';
 import Navigation from '../../components/Navigation/Navigation';
 import Toolbar from '../../components/toolbar/toolbar';
 import ToolbarButton from '../../components/toolbar/ToolbarButton/ToolbarButton';
-
-import './page.css';
+import NavigationItem from '../../components/Navigation/NavigationItem/NavigationItem';
 
 class Page extends Component {
     state = {
@@ -127,9 +126,6 @@ class Page extends Component {
                             center={<Navigation dataSource={centerNavigationItems}/>}
                             right={rightNavigationItems}
                         />
-                        
-                        <hr />
-
                         <div id='page-content'>
                             <Route 
                                 exact path="/"

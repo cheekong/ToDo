@@ -1,9 +1,15 @@
 #toolbar {
     height: 60px;
     width: 100%;
+    padding-top:30px;
     display: flex;
 }
 
+/*
+#toolbar > * > * {
+    margin-top: 20px;
+}
+*/
 .toolbar_left {
     justify-content: flex-end;
     width: 25%;
@@ -12,6 +18,7 @@
 .toolbar_center {
     justify-content: flex-end;
     width: 50%;
+    margin-top:15px;
 }
 
 .toolbar_right {

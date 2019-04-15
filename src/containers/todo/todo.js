@@ -30,7 +30,8 @@ class Todo extends Component {
         loading: true,
         form: null,
         noteId: null,
-        action: ''
+        action: '',
+        inputMaxLength: 40
     }
 
     focusTextInput() {
@@ -91,32 +92,44 @@ class Todo extends Component {
         this.setState({note: noteCopy});
     }
 
-    pendingItemOnChange = (id, event) => {
+    pendingItemOnChange = (id, event, maxLength) => {
         event.preventDefault();
         let noteCopy = JSON.parse(JSON.stringify(this.state.note));
+        //On enter key press, create a new pending item;
+console.log('test123123');
         if(event.key === 'Enter'){
+console.log('event.key', event.key);
             noteCopy.items.pending.push({
                 id: this.state.note.items.pending.length,
                 checked: false,
                 description: ''});
         } else {
-            noteCopy.items.pending[id].description = event.target.value; 
+            let newValueTrimmed = event.target.value.trim();
+
+            if(newValueTrimmed.length < maxLength ){
+                noteCopy.items.pending[id].description = event.target.value;
+                this.setState({note: noteCopy});
+            }
         }
-        
-        this.setState({note: noteCopy});
     }
 
-    pendingItemOnKeyPress = (id, event) => {
+    pendingItemOnKeyPress = (id, event, maxLength) => {
         event.preventDefault();
         let noteCopy = JSON.parse(JSON.stringify(this.state.note));
+console.log('newValueTrimmed.length',event.key.length);
+console.log('maxLength',maxLength);
         if(event.key === 'Enter'){
             noteCopy.items.pending.push({
                 id: this.state.note.items.pending.length,
                 checked: false,
                 description: ''});
         } else {
-            const value = event.target.value + event.key;
-            noteCopy.items.pending[id].description = value;
+            const value = event.target.value + event.key.trim();
+            if(value.length < maxLength ){
+console.log('less');
+                noteCopy.items.pending[id].description = value;
+            }
+            
         }
         this.setState({note: noteCopy});
     }
@@ -143,7 +156,7 @@ class Todo extends Component {
         })
     }
 
-    buildForm = (titleChange) => {
+    buildForm = (titleChange, isNew) => {
         let title = null;
         if(!titleChange){
             title = (
@@ -163,22 +176,27 @@ class Todo extends Component {
                 />
             )
         }
+
+        let buttons = [
+            <Button primary={true} label='Save' onClick={this.handleSubmit}/>,
+            <Button label='Cancel' onClick={this.handleCancel}/>
+        ]
+
+        if(!isNew){
+            buttons.push(<Button secondary={true} label='Delete' onClick={this.handleDelete}/>);
+        }
         
         return (
             <Form 
                 customTitle={title}
-                buttons={[
-                    <Button primary={true} label='Save' onClick={this.handleSubmit}/>,
-                    <Button label='Cancel' onClick={this.handleCancel}/>,
-                    <Button secondary={true} label='Delete' onClick={this.handleDelete}/>
-                ]}
+                buttons={buttons}
             >
                 <NoteContainer 
                     data={this.state.note.items}
                     completedHandleOnClick={(idx) => this.completedHandleOnClick(idx)}
                     pendingItemHandleCheckBox={(idx) => this.pendingItemHandleCheckBox(idx)}
-                    pendingItemOnChange={(idx, event) => this.pendingItemOnChange(idx, event)}
-                    pendingItemOnKeyPress={(idx, event) => this.pendingItemOnKeyPress(idx, event)}
+                    pendingItemOnChange={(idx, event) => this.pendingItemOnChange(idx, event, this.state.inputMaxLength)}
+                    pendingItemOnKeyPress={(idx, event) => this.pendingItemOnKeyPress(idx, event, this.state.inputMaxLength)}
                 />
             </Form>
         )
@@ -227,7 +245,7 @@ class Todo extends Component {
     render(){
         let content = (<i class="fas fa-spinner fa-spin"/>);
         if(!this.state.loading){
-            content = this.buildForm(this.state.titleChange);
+            content = this.buildForm(this.state.titleChange, this.state.noteId === null);
         }
         return content;
     }

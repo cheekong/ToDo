@@ -4,7 +4,7 @@ import './NavigationItem.css';
 
 const NavigationItem = ({displayLabel, path}) => (
     <Link 
-        className='navItem' 
+        className='navigation-item' 
         to={path}
     >
         {displayLabel}
