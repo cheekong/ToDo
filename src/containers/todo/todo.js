@@ -96,9 +96,7 @@ class Todo extends Component {
         event.preventDefault();
         let noteCopy = JSON.parse(JSON.stringify(this.state.note));
         //On enter key press, create a new pending item;
-console.log('test123123');
         if(event.key === 'Enter'){
-console.log('event.key', event.key);
             noteCopy.items.pending.push({
                 id: this.state.note.items.pending.length,
                 checked: false,
@@ -116,17 +114,15 @@ console.log('event.key', event.key);
     pendingItemOnKeyPress = (id, event, maxLength) => {
         event.preventDefault();
         let noteCopy = JSON.parse(JSON.stringify(this.state.note));
-console.log('newValueTrimmed.length',event.key.length);
-console.log('maxLength',maxLength);
         if(event.key === 'Enter'){
             noteCopy.items.pending.push({
                 id: this.state.note.items.pending.length,
                 checked: false,
                 description: ''});
         } else {
-            const value = event.target.value + event.key.trim();
-            if(value.length < maxLength ){
-console.log('less');
+            const value = event.target.value + event.key;
+            const trimmedValue = value.trim()
+            if(trimmedValue.length < maxLength ){
                 noteCopy.items.pending[id].description = value;
             }
             
@@ -167,9 +163,10 @@ console.log('less');
         } else {
             title = (
                 <Input 
-                    className='center-text title-input'
+                    className=''
                     type='text' 
                     placeholder='Title'
+                    center
                     value={this.state.note.title}
                     onChange={(event) => this.handleTitleKeyPress(event)}
                     onKeyPress={(event)=>this.handleTitleKeyPress(event)}

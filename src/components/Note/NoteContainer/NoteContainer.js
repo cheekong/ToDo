@@ -2,6 +2,7 @@ import React from 'react';
 
 import PendingItems from '../NoteContainerItems/NotePendingItem/NotePendingItem';
 import CompletedItems from '../NoteContainerItems/NoteCompletedItem/NoteCompletedItem';
+import './NoteContainer.css';
 
 const buildPendingItems = (pendingItems, pendingItemHandleCheckBox, pendingItemOnChange, pendingItemOnKeyPress) => {
     let lastIndex = pendingItems.length ? pendingItems.length - 1: 0;
@@ -45,7 +46,6 @@ const buildCompletedItems = (completedItems, completedHandleOnClick) => {
     return completedItemsList;
 }
 
-
 const NoteContainer = (props) => {
     const pendingItems = buildPendingItems(
         props.data.pending, 
@@ -54,10 +54,15 @@ const NoteContainer = (props) => {
         props.pendingItemOnKeyPress
     );
 
-    const  completedItems = buildCompletedItems(
-        props.data.completed,
-        props.completedHandleOnClick
-    );
+    let completedItems = null;
+    if(props.data.completed.length){
+        completedItems = (
+            <section id='note-container-completed-items'>
+                <h2>{props.data.completed.length} Completed Items</h2>
+                {buildCompletedItems(props.data.completed, props.completedHandleOnClick)}
+            </section>
+        );
+    }
 
     return (
         <section id='note-container'>
@@ -65,10 +70,7 @@ const NoteContainer = (props) => {
                 <h2>{props.data.pending.length} Pending Items</h2>
                 {pendingItems}
             </section>
-            <section id='note-container-completed-items'>
-                <h2>{props.data.completed.length} Completed Items</h2>
-                {completedItems}
-            </section>
+            {completedItems}
         </section>
     )
 }

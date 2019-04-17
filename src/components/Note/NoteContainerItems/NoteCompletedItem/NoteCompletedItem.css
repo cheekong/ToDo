@@ -1,19 +1,20 @@
 .note-container-item-completed {
     display: flex;
-    background-color: lightgray;
-    border-radius: 5px;
+    background-color: #f0f0f0;
+    /*border-radius: 5px;*/
     padding-top: 10px;
     padding-bottom: 10px;
     padding-left: 10px;
+    margin-bottom: 5px;
 }
 
-.note-container-item-completed p {
-    margin-top: 0;
-    margin-bottom: 0;
+.note-container-item-completed s {
+    color:black;
 }
 
 .note-container-item-completed p {
     margin-top: 0;
     margin-bottom: 0;
     margin-left:10px;
+    color: grey;
 }

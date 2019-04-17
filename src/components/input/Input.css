@@ -5,3 +5,11 @@
     background-color: transparent;
     text-indent: 20px;
 }
+
+.app-input-center {
+    text-align: center;
+}
+
+.app-input-center::placeholder{
+    text-align: center;
+ }
