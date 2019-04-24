@@ -1,11 +1,11 @@
 .note-container-item-pending {
     display: flex;
-    background-color: lightgray;
-    /*border-radius: 5px;*/
     padding-top: 10px;
     padding-bottom: 10px;
     padding-left: 10px;
-    margin-bottom: 5px;
+    margin-top:5px;
+    margin-bottom:5px;
+    border: 1px solid lightgray;
 }
 
 .note-container-item-pending input[type='text']{

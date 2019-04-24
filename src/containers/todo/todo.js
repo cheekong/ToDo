@@ -143,6 +143,13 @@ class Todo extends Component {
         this.setState({note: noteCopy});
     }
 
+    handleDeleteNoteItem = (e, type, idx) => {
+        e.preventDefault();
+        let newNoteState = JSON.parse(JSON.stringify(this.state.note));
+        newNoteState.items[type].splice(idx, 1);
+        this.setState({note: newNoteState});
+    }
+
     handleDelete = (event, noteId, isLogin, userId) => {
         event.preventDefault();
         this.props.toggleLoading();
@@ -194,6 +201,7 @@ class Todo extends Component {
                     pendingItemHandleCheckBox={(idx) => this.pendingItemHandleCheckBox(idx)}
                     pendingItemOnChange={(idx, event) => this.pendingItemOnChange(idx, event, this.state.inputMaxLength)}
                     pendingItemOnKeyPress={(idx, event) => this.pendingItemOnKeyPress(idx, event, this.state.inputMaxLength)}
+                    onDelete={(e, type, idx) => this.handleDeleteNoteItem(e, type, idx)}
                 />
             </Form>
         )

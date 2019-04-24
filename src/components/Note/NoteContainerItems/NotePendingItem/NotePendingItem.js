@@ -21,6 +21,9 @@ const NotePendingItem = ({className='', ...props}) => {
                 onKeyPress={props.onKeyPress}
                 ref={props.ref}
             />
+            <button onClick={(e) => props.onDelete(e)}>
+                X
+            </button>
         </div>
     )
 }

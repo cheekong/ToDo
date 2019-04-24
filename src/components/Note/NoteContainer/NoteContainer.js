@@ -4,11 +4,12 @@ import PendingItems from '../NoteContainerItems/NotePendingItem/NotePendingItem'
 import CompletedItems from '../NoteContainerItems/NoteCompletedItem/NoteCompletedItem';
 import './NoteContainer.css';
 
-const buildPendingItems = (pendingItems, pendingItemHandleCheckBox, pendingItemOnChange, pendingItemOnKeyPress) => {
+const buildPendingItems = (pendingItems, pendingItemHandleCheckBox, pendingItemOnChange, pendingItemOnKeyPress, onDelete) => {
     let lastIndex = pendingItems.length ? pendingItems.length - 1: 0;
     let pendingItemsList = null;
     if(Array.isArray(pendingItems) && pendingItems.length){
         pendingItemsList = pendingItems.map((item, idx) => {
+console.log('idx', idx);
             if(!item.checked){
                 return (
                     <PendingItems
@@ -17,6 +18,7 @@ const buildPendingItems = (pendingItems, pendingItemHandleCheckBox, pendingItemO
                         handleCheckBox={() => pendingItemHandleCheckBox(idx)}
                         onChange={(event) => pendingItemOnChange(idx, event)}
                         onKeyPress={event => pendingItemOnKeyPress(idx, event)}
+                        onDelete={ e => onDelete(e, 'pending', idx)}
                     />
                 )
             } else {
@@ -28,7 +30,7 @@ const buildPendingItems = (pendingItems, pendingItemHandleCheckBox, pendingItemO
     return pendingItemsList;
 }
 
-const buildCompletedItems = (completedItems, completedHandleOnClick) => {
+const buildCompletedItems = (completedItems, completedHandleOnClick, onDelete) => {
     let completedItemsList = null;
     if(Array.isArray(completedItems) && completedItems.length){
         completedItemsList = completedItems.map((item, idx) => {
@@ -39,6 +41,7 @@ const buildCompletedItems = (completedItems, completedHandleOnClick) => {
                     value={item.description}
                     onChange={()=>{}}
                     handleOnClick={() => completedHandleOnClick(idx)}
+                    onDelete={(e) => onDelete(e, 'completed', idx)}
                 />
             )
         });
@@ -51,7 +54,8 @@ const NoteContainer = (props) => {
         props.data.pending, 
         props.pendingItemHandleCheckBox,
         props.pendingItemOnChange,
-        props.pendingItemOnKeyPress
+        props.pendingItemOnKeyPress,
+        props.onDelete
     );
 
     let completedItems = null;
@@ -59,7 +63,7 @@ const NoteContainer = (props) => {
         completedItems = (
             <section id='note-container-completed-items'>
                 <h2>{props.data.completed.length} Completed Items</h2>
-                {buildCompletedItems(props.data.completed, props.completedHandleOnClick)}
+                {buildCompletedItems(props.data.completed, props.completedHandleOnClick, props.onDelete)}
             </section>
         );
     }
