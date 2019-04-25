@@ -1,0 +1,10 @@
+.spinner-icon-container {
+}
+
+.spinner-icon {
+    text-align: center;
+    display: block;
+    font-size: 50px;
+    height: 100%;
+    width:100%;
+}

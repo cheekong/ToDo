@@ -1,6 +1,6 @@
 import React, { Component} from 'react';
 
-import './dialog.css';
+import './Dialog.css';
 
 class Dialog extends Component {
     handleClose() {

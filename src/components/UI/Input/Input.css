@@ -1,4 +1,4 @@
-.app-input {
+.app-input{
     width: 100%;
     margin-top:10px;
     margin-bottom:10px;
@@ -13,4 +13,8 @@
 
 .app-input-center::placeholder{
     text-align: center;
+ }
+
+ .app-input[type='checkbox']{
+     
  }

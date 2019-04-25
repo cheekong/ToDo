@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import './noticebar.css'
+import './Noticebar.css'
 
 class NoticeBar extends Component {
     //success or error icon

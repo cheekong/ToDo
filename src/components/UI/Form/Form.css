@@ -1,0 +1,56 @@
+.app-form {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    text-align: center;
+}
+
+.app-form-component {
+    padding: 20px 0;
+    width: 70%;
+}
+
+.app-form-heading {
+    
+}
+
+.app-form-content {
+
+    
+}
+
+.app-form-content > input {
+
+}
+
+.app-form-actions {
+    display: flex;
+    flex-direction: column;
+}
+
+.app-form-actions * {
+    margin: 5px auto;
+}
+
+form {
+    width: 50%;
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: white; 
+  }
+  
+  form #form--title {
+    padding-top: 40px;
+  }
+  
+  form .form--content {
+    padding:40px 40px;
+  }
+  
+  form input[type=checkbox] {
+    height:20px;
+    width: 20px;
+    border: 0;
+    border-radius: 20px;
+    text-indent: 20px;
+  }

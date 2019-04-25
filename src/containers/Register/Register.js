@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
-import Form from '../../components/form/form';
-import Input from '../../components/input/Input';
-import Button from '../../components/Button/Button';
+import Form from '../../components/UI/Form/Form';
+import Input from '../../components/UI/Input/Input';
+import Button from '../../components/UI/Button/Button';
 import * as api from '../../utilities/api';
 
 class Signup extends Component {

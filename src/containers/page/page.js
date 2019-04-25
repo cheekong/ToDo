@@ -3,15 +3,15 @@ import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom
 import { connect } from 'react-redux'
 
 import * as actionCreators from '../../store/actions/index';
-import ToDo from '../todo/todo';
-import Login from '../login/login';
-import Signup from '../signup/signup';
-import TodoList from '../todo/todoList/todoList';
-import NoticeBar from '../../components/noticebar/noticebar';
-import Dialog from '../../components/dialog/dialog';
+import ToDo from '../ToDo/ToDo';
+import Login from '../Login/Login';
+import Signup from '../Register/Register';
+import TodoList from '../ToDo/ToDoList/ToDoList';
+import NoticeBar from '../../components/UI/Noticebar/Noticebar';
+import Dialog from '../../components/UI/Dialog/Dialog';
 import Navigation from '../../components/Navigation/Navigation';
-import Toolbar from '../../components/toolbar/toolbar';
-import ToolbarButton from '../../components/toolbar/ToolbarButton/ToolbarButton';
+import Toolbar from '../../components/Toolbar/Toolbar';
+import ToolbarButton from '../../components/Toolbar/ToolbarButton/ToolbarButton';
 import NavigationItem from '../../components/Navigation/NavigationItem/NavigationItem';
 
 class Page extends Component {

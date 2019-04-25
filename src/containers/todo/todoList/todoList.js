@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 
-import Form from '../../../components/form/form';
+import Form from '../../../components/UI/Form/Form';
 import NoteList from '../../../components/Note/NoteList/NoteList';
+import SpinnerIcon from '../../../components/UI/SpinnerIcon/SpinnerIcon';
 import * as actionCreators from '../../../store/actions/index';
 import * as api from '../../../utilities/api';
 
@@ -67,7 +68,7 @@ class TodoList extends Component {
     }
 
     render(){
-        let content = <div><i class="fas fa-spinner fa-spin"/></div>;
+        let content = (<SpinnerIcon />);
         if(!this.state.loading && this.state.notes){
             content = <NoteList 
                 data={this.state.notes} 

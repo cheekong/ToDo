@@ -1,5 +1,5 @@
 import React from 'react';
-import Button from '../../Button/Button';
+import Button from '../../UI/Button/Button';
 import './ToolbarButton.css';
 
 const ToolbarButton = ( {type, ...props} ) => (

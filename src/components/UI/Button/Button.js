@@ -31,10 +31,11 @@ const getClasses = (className, primary, secondary, buttonStyle) => {
 const getWidth = (width) => width;
 
 const Button = ({
+    label='',
     className='', 
     onClick = null, 
-    primary, 
-    secondary,
+    primary=false, 
+    secondary=false,
     buttonStyle = 'default',
     width = null,
     ...props
@@ -51,7 +52,7 @@ const Button = ({
                 e.preventDefault();
                 onClick(e)}}
         >
-            {props.label}
+            {label}
         </button>
     )
 }

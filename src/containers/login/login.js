@@ -1,9 +1,9 @@
 import React, { Component }  from 'react';
 import { connect } from 'react-redux'
 
-import Form from '../../components/form/form';
-import Input from '../../components/input/Input';
-import Button from '../../components/Button/Button';
+import Form from '../../components/UI/Form/Form';
+import Input from '../../components/UI/Input/Input';
+import Button from '../../components/UI/Button/Button';
 import * as actionCreators from '../../store/actions/index';
 
 class Login extends Component {
@@ -46,6 +46,9 @@ class Login extends Component {
                         value={this.state.password} 
                         onChange={(event) => this.handleOnChange('password', event.target.value)}
                     />
+                    <section>
+                        <p>No account? <a href='/'>Create one</a></p>
+                    </section>
                 </Form>
             </div>
         )

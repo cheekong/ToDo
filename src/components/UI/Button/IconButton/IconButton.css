@@ -1,0 +1,16 @@
+.icon-button {
+    height: 40px;
+    width: 40px;
+    border: 0;
+    background-color: transparent;
+}
+
+.icon-button.round{
+    border-radius: 100%;
+    background-color: aliceblue;
+}
+
+.icon-button.square{
+    border-radius: 5px;
+    background-color: aliceblue;
+}

@@ -18,3 +18,21 @@
     margin-left:10px;
     color: grey;
 }
+
+.note-container-item-completed-left{
+    height: inherit;
+    margin: auto 0;
+    width: 10%;
+}
+
+.note-container-item-completed-center{
+    height: inherit;
+    margin: auto 0;
+    width: 80%;
+}
+
+.note-container-item-completed-right{
+    height: inherit;
+    margin: auto 0;
+    width: 10%
+}

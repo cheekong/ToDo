@@ -1,5 +1,5 @@
 import React from 'react';
-import './toolbar.css';
+import './Toolbar.css';
 
 const toolbar = ({left = null, center = null, right = null}) => {
     return (

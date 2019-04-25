@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import Form from '../../components/form/form';
-import Input from '../../components/input/Input';
-import Button from '../../components/Button/Button';
+import Form from '../../components/UI/Form/Form';
+import Input from '../../components/UI/Input/Input';
+import Button from '../../components/UI/Button/Button';
 import NoteContainer from '../../components/Note/NoteContainer/NoteContainer';
+import SpinnerIcon from '../../components/UI/SpinnerIcon/SpinnerIcon';
 import * as actionCreators from '../../store/actions/index';
 import * as api from '../../utilities/api';
 //import './todo.css';
@@ -111,23 +112,31 @@ class Todo extends Component {
         }
     }
 
-    pendingItemOnKeyPress = (id, event, maxLength) => {
-        event.preventDefault();
+    handleAddNewListItem = (e) => {
+        e.preventDefault();
         let noteCopy = JSON.parse(JSON.stringify(this.state.note));
+        noteCopy.items.pending.push({
+            id: this.state.note.items.pending.length,
+            checked: false,
+            description: ''
+        });
+        this.setState({note: noteCopy});
+    }
+
+    pendingItemOnKeyPress = (id, event, maxLength) => {
         if(event.key === 'Enter'){
-            noteCopy.items.pending.push({
-                id: this.state.note.items.pending.length,
-                checked: false,
-                description: ''});
+            this.handleAddNewListItem(event);
         } else {
+            event.preventDefault();
+            let noteCopy = JSON.parse(JSON.stringify(this.state.note));
             const value = event.target.value + event.key;
             const trimmedValue = value.trim()
             if(trimmedValue.length < maxLength ){
                 noteCopy.items.pending[id].description = value;
             }
-            
+            this.setState({note: noteCopy});
         }
-        this.setState({note: noteCopy});
+        
     }
 
     changeTitle = () => {
@@ -160,26 +169,19 @@ class Todo extends Component {
     }
 
     buildForm = (titleChange, isNew) => {
-        let title = null;
-        if(!titleChange){
-            title = (
-                <h1 onClick={()=>this.changeTitle()}>
-                    {this.state.note.title}
-                </h1>
-            );
-        } else {
-            title = (
-                <Input 
-                    className=''
-                    type='text' 
-                    placeholder='Title'
-                    center
-                    value={this.state.note.title}
-                    onChange={(event) => this.handleTitleKeyPress(event)}
-                    onKeyPress={(event)=>this.handleTitleKeyPress(event)}
-                />
-            )
-        }
+        let title = (
+            <Input 
+                className=''
+                fontSize='30'
+                type='text' 
+                placeholder='Title'
+                center
+                underline
+                value={this.state.note.title}
+                onChange={(event) => this.handleTitleKeyPress(event)}
+                onKeyPress={(event)=>this.handleTitleKeyPress(event)}
+            />
+        )
 
         let buttons = [
             <Button primary={true} label='Save' onClick={this.handleSubmit}/>,
@@ -202,6 +204,7 @@ class Todo extends Component {
                     pendingItemOnChange={(idx, event) => this.pendingItemOnChange(idx, event, this.state.inputMaxLength)}
                     pendingItemOnKeyPress={(idx, event) => this.pendingItemOnKeyPress(idx, event, this.state.inputMaxLength)}
                     onDelete={(e, type, idx) => this.handleDeleteNoteItem(e, type, idx)}
+                    addNewItem={(e) => this.handleAddNewListItem(e)}
                 />
             </Form>
         )
@@ -248,7 +251,7 @@ class Todo extends Component {
     }
 
     render(){
-        let content = (<i class="fas fa-spinner fa-spin"/>);
+        let content = (<Form ><SpinnerIcon /></Form>);
         if(!this.state.loading){
             content = this.buildForm(this.state.titleChange, this.state.noteId === null);
         }
