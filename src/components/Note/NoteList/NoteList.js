@@ -1,5 +1,5 @@
 import React from 'react';
-import NoteListItem from '../NoteListItem/NoteListItem';
+import NoteListItem from './NoteListItem/NoteListItem';
 import './NoteList.css';
 
 const NoteList = ({data, handleView, handleDelete, isLogin}) => {

@@ -1,4 +1,5 @@
 import React, { Component }  from 'react';
+import {Link} from 'react-router-dom';
 import { connect } from 'react-redux'
 
 import Form from '../../components/UI/Form/Form';
@@ -32,7 +33,7 @@ class Login extends Component {
             <div id='login'>
                 <Form
                     title="Hi again!"
-                    buttons={(<Button primary={true} type='button' label="Login" onClick={(event)=>this.handleSubmit(event)}/>)}
+                    buttons={(<Button primary={true} type='button' label="Login" onClick={(event)=>this.handleSubmit(event)}>Login</Button>)}
                 >
                     <Input 
                         type='Username' 
@@ -47,7 +48,7 @@ class Login extends Component {
                         onChange={(event) => this.handleOnChange('password', event.target.value)}
                     />
                     <section>
-                        <p>No account? <a href='/'>Create one</a></p>
+                        <p>No account? <Link to='/'>Create one</Link></p>
                     </section>
                 </Form>
             </div>

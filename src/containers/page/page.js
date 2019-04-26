@@ -87,7 +87,7 @@ class Page extends Component {
                 {displayLabel: 'List', path: '/list'}
             ],
             //leftNavigationItems = [{displayLabel: 'Logout', path: '/logout'}];
-            rightNavigationItems = [<ToolbarButton label='Logout' onClick={(e) => this.handleLogout(e)} />];
+            rightNavigationItems = [<ToolbarButton onClick={(e) => this.handleLogout(e)}>Logout</ToolbarButton>];
 
         if(!this.props.isLogin){
             redirect = <Redirect to='/' />;

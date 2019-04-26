@@ -48,6 +48,19 @@
     border: 1px solid;
 }
 
+.app-button-transparent-style {
+    background-color: transparent;
+    border: 0;
+}
+
+.app-button-transparent-style.app-button-primary {
+    color: green;
+}
+
+.app-button-transparent-style.app-button-secondary {
+    color: red;
+}
+
 .app-button-outline-style.app-button-primary {
     border-color: green;
     color: green;

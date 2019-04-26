@@ -3,10 +3,11 @@
     border-radius: 0;
     width: 100%;
     max-width: 500px;
-    margin: 0 auto 50px auto;
+    margin: 0 auto 10px auto;
     background-color: white;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    
 }
 
 .note-list-item ul{
@@ -16,7 +17,7 @@
 .note-list-item li{
     list-style: none;
 }
-
+/*
 .note-list-item-actions {
     color: white;
     font-size: 20px;
@@ -31,6 +32,7 @@
     justify-content: center;
 }
 
+
 .note-list-item-actions__button {
     padding: 10px 10px;
     margin-left: 10px;
@@ -43,6 +45,8 @@
     margin-right: auto;
 }
 
+
+
 .note-list-item-actions__button:hover {
     background: rgba(26, 33, 43, 0.1);
     color: white;
@@ -54,4 +58,12 @@
 
 .note-list-item-actions__button--delete {
     background-color: red;
+}
+*/
+.new-note-list-item-details{
+    width: 60%;
+}
+
+.note-list-item-actions {
+    width: 40%;
 }

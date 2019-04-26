@@ -26,9 +26,17 @@ console.log('idx', idx);
                 return null;
             }
         });
-        
     }
-    pendingItemsList.push(<Button primary label='+ Add new item' width='100%' onClick={(e) => onAddNewItem(e)}/>)
+    pendingItemsList.push(
+        <Button 
+            variant='default' 
+            color='primary' 
+            width='100%' 
+            onClick={(e) => onAddNewItem(e)}
+        >
+            <i class="fas fa-plus"></i>   Add new item
+        </Button>
+    )
     return pendingItemsList;
 }
 

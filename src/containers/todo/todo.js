@@ -184,12 +184,12 @@ class Todo extends Component {
         )
 
         let buttons = [
-            <Button primary={true} label='Save' onClick={this.handleSubmit}/>,
-            <Button label='Cancel' onClick={this.handleCancel}/>
+            <Button color='primary' variant='default' onClick={this.handleSubmit}>Save</Button>,
+            <Button color='default' variant='default' onClick={this.handleCancel}>Cancel</Button>
         ]
 
         if(!isNew){
-            buttons.push(<Button secondary={true} label='Delete' onClick={this.handleDelete}/>);
+            buttons.push(<Button color='secondary' variant='default' onClick={this.handleDelete}>Delete</Button>);
         }
         
         return (
