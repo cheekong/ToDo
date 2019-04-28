@@ -1,6 +1,6 @@
 import React from 'react';
 
-import IconButton from '../../../UI/Button/IconButton/IconButton';
+import Button from '../../../UI/Button/Button';
 import './NoteCompletedItem.css';
 
 //Goes to its' own file. 
@@ -25,10 +25,14 @@ console.log('test');
                 </s>
             </section>
             <section className='note-container-item-completed-right'>
-            <IconButton 
+            <Button 
                 icon='trash'
+                variant='transparent'
+                color='default'
                 onClick={(e) => props.onDelete(e)}
-            />
+            >
+                <i class="far fa-trash-alt"></i>
+            </Button>
             </section>
             
              

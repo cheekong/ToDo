@@ -11,7 +11,7 @@
 }
 
 .app-button:hover {
-    opacity: 0.5;
+    opacity: 0.3;
 }
 
 .app-button-default-style {
@@ -26,21 +26,21 @@
 }
 
 .app-button-default-style.app-button-primary {
-    background-color: green;
+    background-color: rgb(55, 158, 55);
     color: white;
 }
 
 .app-button-default-style.app-button-primary:hover {
-    opacity: 0.5;
+    opacity: 0.3;
 }
 
 .app-button-default-style.app-button-secondary {
-    background-color: red;
+    background-color: rgb(255, 66, 66);
     color: white;
 }
 
 .app-button-default-style.app-button-secondary:hover {
-    opacity: 0.5;
+    opacity: 0.3;
 }
 
 .app-button-outline-style {
@@ -53,22 +53,26 @@
     border: 0;
 }
 
+.app-button-transparent-style:hover {
+    background-color: lightgray;
+}
+
 .app-button-transparent-style.app-button-primary {
-    color: green;
+    color:  rgb(55, 158, 55);
 }
 
 .app-button-transparent-style.app-button-secondary {
-    color: red;
+    color: rgb(255, 66, 66);
 }
 
 .app-button-outline-style.app-button-primary {
-    border-color: green;
-    color: green;
+    border-color:  rgb(55, 158, 55);
+    color:  rgb(55, 158, 55);
     background-color: white;
 }
 
 .app-button-outline-style.app-button-secondary {
-    border-color: red;
-    color: red;
+    border-color: rgb(255, 66, 66);
+    color: rgb(255, 66, 66);
     background-color: white;
 }

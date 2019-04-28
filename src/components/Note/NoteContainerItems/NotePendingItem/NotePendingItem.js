@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Input from '../../../UI/Input/Input';
-import IconButton from '../../../UI/Button/IconButton/IconButton';
+import Button from '../../../UI/Button/Button';
 import Checkbox from '../../../UI/Checkbox/Checkbox';
 import './NotePendingItem.css';
 
@@ -33,10 +33,13 @@ const NotePendingItem = ({className='', ...props}) => {
                 />
             </div>
             <div className='note-container-item-pending-right'>
-                <IconButton 
-                    icon='trash'
+                <Button
+                    variant='transparent'
+                    color='default'
                     onClick={(e) => props.onDelete(e)}
-                />
+                >
+                    <i class="far fa-trash-alt"></i>
+                </Button>
             </div>
         </div>
     )

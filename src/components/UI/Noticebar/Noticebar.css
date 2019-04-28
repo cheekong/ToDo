@@ -36,11 +36,11 @@
 
 
 .success {
-    background-color: green;
+    background-color: rgb(55, 158, 55);
 }
 
 .error {
-    background-color: red;
+    background-color:  rgb(255, 66, 66);
 }
 
 .warning {

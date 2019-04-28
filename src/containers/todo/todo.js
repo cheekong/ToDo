@@ -159,10 +159,10 @@ class Todo extends Component {
         this.setState({note: newNoteState});
     }
 
-    handleDelete = (event, noteId, isLogin, userId) => {
+    handleDelete = (event, noteId, userId) => {
         event.preventDefault();
         this.props.toggleLoading();
-        this.props.deleteNote(noteId, isLogin, userId);
+        this.props.deleteNote(this.state.noteId, this.props.isLogin, this.props.userId);
         this.setState({
             action: 'delete'
         })
@@ -184,12 +184,12 @@ class Todo extends Component {
         )
 
         let buttons = [
-            <Button color='primary' variant='default' onClick={this.handleSubmit}>Save</Button>,
-            <Button color='default' variant='default' onClick={this.handleCancel}>Cancel</Button>
+            <Button color='primary' variant='default' onClick={this.handleSubmit}><i class="fas fa-save"></i> Save</Button>,
+            <Button color='default' variant='default' onClick={this.handleCancel}><i class="fas fa-arrow-circle-left"> Cancel</i></Button>
         ]
 
         if(!isNew){
-            buttons.push(<Button color='secondary' variant='default' onClick={this.handleDelete}>Delete</Button>);
+            buttons.push(<Button color='secondary' variant='outline' onClick={this.handleDelete}><i class="far fa-trash-alt"></i> Delete</Button>);
         }
         
         return (

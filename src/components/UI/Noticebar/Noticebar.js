@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+import Backdrop from '../Backdrop/Backdrop';
 import './Noticebar.css'
 
 class NoticeBar extends Component {
@@ -54,12 +55,15 @@ console.log(this.props.show,prevProps.show);
 
         if(this.state.show){
             noticeBar = (
-                <div id='noticebar' className={className}>
-                    <section id='notice-bar-content__section'>
-                        <span id='left-pane'>{icon}</span>
-                        <span id='center-pane'>{this.state.message}</span>
-                        <span id='right-pane' onClick={()=> this.props.onClose()}>x</span>
-                    </section>
+                <div>
+                    <div id='noticebar' className={className}>
+                        <section id='notice-bar-content__section'>
+                            <span id='left-pane'>{icon}</span>
+                            <span id='center-pane'>{this.state.message}</span>
+                            <span id='right-pane' onClick={()=> this.props.onClose()}>x</span>
+                        </section>
+                    </div>
+                    <Backdrop />
                 </div>
             )
         }

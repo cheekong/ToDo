@@ -10,7 +10,6 @@ const buildPendingItems = (pendingItems, pendingItemHandleCheckBox, pendingItemO
     let pendingItemsList = [];
     if(Array.isArray(pendingItems) && pendingItems.length){
         pendingItemsList = pendingItems.map((item, idx) => {
-console.log('idx', idx);
             if(!item.checked){
                 return (
                     <PendingItems
