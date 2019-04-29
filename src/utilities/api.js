@@ -12,11 +12,9 @@ console.log('submitNote notes', notes)
         notes
     )
     .then(res => {
-console.log('submit note then res', res);
         resolve(res);
     })
     .catch(err => {
-console.log('submit note then err', err);
         reject(err);
     });
 });
@@ -96,7 +94,7 @@ export const createAccount = (email, password) => new Promise((resolve, reject) 
 
 export const checkExists = (email) => new Promise((resolve, reject) => {
     axiosInstance.get(
-        'https://notetaking-fce6f.firebaseio.com/users.json?shallow=true&orderBy="email"&startAt="' + email + '"',
+        'https://notetaking-fce6f.firebaseio.com/users.json?orderBy="email"&startAt="' + email + '"'
     )
     .then(res => {
         resolve(res.data);

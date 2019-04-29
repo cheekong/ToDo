@@ -83,7 +83,7 @@ class Page extends Component {
     render(){
         let redirect = null,
             centerNavigationItems =  [
-                {displayLabel: 'New Note', path: '/note'},
+                {displayLabel: 'New ToDo', path: '/todo'},
                 {displayLabel: 'List', path: '/list'}
             ],
             //leftNavigationItems = [{displayLabel: 'Logout', path: '/logout'}];
@@ -95,7 +95,7 @@ class Page extends Component {
             rightNavigationItems = <Navigation 
                 dataSource={
                     [
-                        {displayLabel: 'Signup', path: '/signup'},
+                        {displayLabel: 'Signup', path: '/'},
                         {displayLabel: 'Login', path: '/login'}
                     ]
                 }
@@ -149,7 +149,7 @@ class Page extends Component {
                                 />}
                             />
                             <Route 
-                                exact path="/note"
+                                exact path="/todo"
                                 render={(props) => <ToDo {...props} 
                                     toggleNoticeBar={(success, message) => this.toggleNoticeBar(success, message)} 
                                     toggleDialog={(showDialog, message, button1Function, button2Function)=> this.toggleDialog(showDialog, message, button1Function, button2Function)}

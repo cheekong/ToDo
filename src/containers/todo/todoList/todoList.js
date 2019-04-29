@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import Form from '../../../components/UI/Form/Form';
 import NoteList from '../../../components/Note/NoteList/NoteList';
 import SpinnerIcon from '../../../components/UI/SpinnerIcon/SpinnerIcon';
+import Button from '../../../components/UI/Button/Button';
 import * as actionCreators from '../../../store/actions/index';
 import * as api from '../../../utilities/api';
 
@@ -30,6 +31,10 @@ class TodoList extends Component {
         this.setState({
             action: 'delete'
         });
+    }
+
+    handleNewToDo = (event) => {
+        this.props.history.push('/todo');
     }
 
     getNotes(userId){
@@ -70,14 +75,24 @@ class TodoList extends Component {
     render(){
         let content = (<SpinnerIcon />);
         if(!this.state.loading && this.state.notes){
-            content = <NoteList 
-                data={this.state.notes} 
-                handleView={this.handleViewNote.bind(this.props.isLogin)} 
-                handleDelete={this.handleDeleteNote}
-                isLogin={this.props.isLogin}
-            />
+            content = (
+                <>
+                    <NoteList 
+                        data={this.state.notes} 
+                        handleView={this.handleViewNote.bind(this.props.isLogin)} 
+                        handleDelete={this.handleDeleteNote}
+                        isLogin={this.props.isLogin}
+                    />
+                    <Button width='100%' onClick={(event) => this.handleNewToDo(event)}>+ New ToDo</Button>
+                </>
+            )
         } else if(!this.state.loading && this.state.notes === null) {
-            content = (<h1>You have no notes! :(</h1>);
+            content = (
+                <>
+                    <h1>You have no notes! :(</h1>
+                    <Button width='100%' onClick={(event) => this.handleNewToDo(event)}>+ New ToDo</Button>
+                </>
+            );
         }
 
         
